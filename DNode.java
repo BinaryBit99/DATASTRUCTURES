@@ -8,9 +8,9 @@ package mylib.datastructures.nodes;
  * @since 1.0
  */
 
-public class DNode {
+public classSNode {
     int data; // could be any other type of data, used to display functionality of the data structure.
-    DNode next; // represents a pointer that points to the next node object in the linked list data structure.
-    DNode(int data) { this.data = data; } // Constructor used to instantiate a new node object that contains data, and can be used to point to another node in the linked list.
+    SNode next; // represents a pointer that points to the next node object in the linked list data structure.
+    SNode(int data) { this.data = data; } // Constructor used to instantiate a new node object that contains data, and can be used to point to another node in the linked list.
 
 }
