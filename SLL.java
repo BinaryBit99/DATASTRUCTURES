@@ -159,23 +159,25 @@ public class SLL {
             return;
         }
         else{
-            SNode starter = this.head;
+            SNode starting = this.head;
             SNode current = this.head;
             while(current != null){
-                current = current.next;
-                SNode backTrack = current;
+                SNode before;
+                while(starting.next != null && starting.next.data <= current.data){
+                    before = starting;
+                    starting = starting.next;
+                }
+                SNode slotHolder = starting.next;
+                starting.next = current.next;
+                before = current;
+                current.next = slotHolder;
+                this.head = starting;
                 
-
-
-
-
-
+                current = current.next;
             }
-
-
         }
-
     }
+    
     public void clear() {
         this.head = null;
     }
