@@ -1,6 +1,6 @@
-package mylib.datastructures.linear;
+package myLib.datastructures.Linear;
 
-import mylib.datastructures.nodes.SNode;
+import myLib.datastructures.nodes.SNode;
 
 // Documentation outlined below:
 /**
@@ -116,6 +116,8 @@ public class SLL {
         }
     }
     public SNode Search(SNode node) {
+        //I think there is a bug with this search
+        //it compares entire nodes including pointers, instead of just the data
         SNode current = this.head;
         while(current != null){
             if(current == node){
@@ -180,15 +182,16 @@ public class SLL {
 
     public void clear() {
         this.head = null;
+        this.size = 0;
     }
 
     public void print() {
         SNode current = this.head;
         System.out.print("List Information: \n");
-        System.out.printf("List length: %d", this.size);
-        System.out.print("Sorted status: ");               // still need to implement a method for this.
+        System.out.printf("List length: %d\n", this.size);
+        System.out.print("Sorted status: \n");               // still need to implement a method for this.
         for(int i = 1; current != null; i++){
-            System.out.printf("Data in list item #%d: %d", i, current.data);
+            System.out.printf("Data in list item #%d: %d\n", i, current.data);
             current = current.next;
         }
     }
