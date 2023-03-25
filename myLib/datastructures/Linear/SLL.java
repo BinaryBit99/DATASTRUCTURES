@@ -1,15 +1,23 @@
-package myLib.datastructures.Linear;
+package mylib.datastructures.linear;
 
-import myLib.datastructures.nodes.SNode;
+import mylib.datastructures.nodes.SNode;
 
 // Documentation outlined below:
 /**
  * @authors Evan Barker & Karam Baroud
- * @version 1.1
+ * @version 1.2
  * @since 1.0
  */
 
 public class SLL {
+
+    public static void main(String[] args) {
+        SLL myFirst = new SLL();
+        SNode nodeObject = new SNode(32);
+        myFirst.insertHead(nodeObject);
+        myFirst.print();
+
+    }
     private SNode head;
     private int size;
 
@@ -79,45 +87,47 @@ public class SLL {
         }
     }
 
+    // helper method.
+    public boolean isSorted() {
+        // Idea here: for every node, check with every other prev. node.
+        int[] allData = new int[this.size];
+        SNode current = this.head;
+        for(int i=0; current != null; i++){
+            allData[i] = current.data;
+            for(int j = 0; j < i; j++) {
+                if(allData[j] > current.data) {
+                    return false;
+                }
+            }
+            current = current.next;
+        }
+        return true;
+    }
+
     public void sortedInsert(SNode node) {
         // METHOD: for every position in the LL, we will check a 2-item array to see if
         // the data is either smaller or larger than the data in the array; the data in the array
         // contains the max and min ints SO FAR. Hence, I feel this is a fairly effecient way
         // to check if something is out of order since we have O(2) v. O(n).
-        int[] maxMin = new int[2]; // storage for max and min ints
+        int checkInt; // storage for max and min ints
         boolean didInsert = false;
         int posCurr = 1;
         SNode current = this.head;
         while(!didInsert && current != null) {
-            boolean isStart = false;
-            if (maxMin[1] == 0 && maxMin[0] == 0) {
-                maxMin[1] = current.data;
-            }
-            if (maxMin[0] == 0 && !(maxMin[0] == 0)) {
-                if (current.data < maxMin[1]) {
-                    maxMin[0] = current.data;
-                } else {
-                    maxMin[0] = maxMin[1];
-                    maxMin[1] = current.data;
+            if(isSorted()) {
+                if ((current.data < node.data) && (current.next.data > node.data)) {
+                    insert(node, posCurr);
+                    didInsert = true; // breaks out of while loop if true.
                 }
-                isStart = true; // Use this as a 'bool flag'
+                current = current.next;
+                posCurr += 1;
+            } else if (!isSorted()) {
+                sort();
+                sortedInsert(node);  // Recursively call the function again to perform a proper insert
             }
-            if (isStart) {
-                if (current.data < maxMin[1] && current.data > maxMin[0]) {
-                    sort(); // call sort to sort the LL
-                }
-            }
-            if ((current.data < node.data) && (current.next.data > node.data)) {
-                insert(node, posCurr);
-                didInsert = true; // breaks out of while loop if true.
-            }
-            current = current.next;
-            posCurr += 1;
         }
     }
     public SNode Search(SNode node) {
-        //I think there is a bug with this search
-        //it compares entire nodes including pointers, instead of just the data
         SNode current = this.head;
         while(current != null){
             if(current == node){
@@ -157,46 +167,40 @@ public class SLL {
     // a merge sort if I ever get bored...
     public void sort() {
         // we can always find a better alg. later but this is what i got for now...
-        if(this.size == 0 || this.size == 1){
-            return;
-        }
-        else{
-            SNode starting = this.head;
-            SNode current = this.head;
-            while(current != null){
-                SNode before;
-                while(starting.next != null && starting.next.data <= current.data){
-                    before = starting;
-                    starting = starting.next;
+        SNode current = this.head;
+        while(current != null){
+            SNode checker = current; // since all prev nodes will be sorted, idea with insertion sort...
+            while(checker != null){
+                if(checker.data < current.data && checker.next.data > current.data) {
+                    SNode tmp = checker.next;
+                    checker.next = current;
+                    current.next = tmp;
+                    current = checker;
+                    checker = checker.next;
                 }
-                SNode slotHolder = starting.next;
-                starting.next = current.next;
-                before = current;
-                current.next = slotHolder;
-                this.head = starting;
-
-                current = current.next;
+                checker = checker.next;
             }
+            current = current.next;
         }
     }
 
     public void clear() {
         this.head = null;
-        this.size = 0;
     }
 
     public void print() {
         SNode current = this.head;
         System.out.print("List Information: \n");
-        System.out.printf("List length: %d\n", this.size);
-        System.out.print("Sorted status: \n");               // still need to implement a method for this.
+        System.out.printf("List length: %d", this.size);
+        System.out.print("Sorted status: ");               // still need to implement a method for this.
         for(int i = 1; current != null; i++){
-            System.out.printf("Data in list item #%d: %d\n", i, current.data);
+            System.out.printf("Data in list item #%d: %d", i, current.data);
             current = current.next;
         }
     }
-    
+
 
 }
+
 
 
