@@ -5,7 +5,7 @@ import mylib.datastructures.nodes.SNode;
 // Documentation outlined below:
 /**
  * @authors Evan Barker & Karam Baroud
- * @version 1.3
+ * @version 1.4
  * @since 1.0
  */
 
@@ -23,6 +23,10 @@ public class SLL {
         SNode nodeObject3 = new SNode(25);   // tail works.
         myFirst.insertTail(nodeObject3);
         myFirst.insert(nodeObject4, 2);
+
+        SNode nodeObject5 = new SNode(25);
+        myFirst.insert(nodeObject5, 5);
+        myFirst.sort();
         myFirst.print();
         System.out.print(myFirst.isSorted());     // isSorted() method works okay.
 
@@ -181,23 +185,27 @@ public class SLL {
     public void sort() {
         // we can always find a better alg. later but this is what i got for now...
         SNode current = this.head;
+        SNode prevCurrent = this.head;
         while(current != null){
-            SNode checker = current; // since all prev nodes will be sorted, idea with insertion sort...
+            SNode checker = current.next; // since all prev nodes will be sorted, idea with insertion sort...
             while(checker != null){
-                if(checker.data < current.data && checker.next.data > current.data) {
+                if(checker.data < current.data) {
                     SNode tmp = checker.next;
                     checker.next = current;
                     current.next = tmp;
+                    prevCurrent.next = checker;
                     current = checker;
                     checker = checker.next;
                 }
                 checker = checker.next;
             }
+            prevCurrent = current;
             current = current.next;
         }
     }
 
     public void clear() {
+        this.size = 0;
         this.head = null;
     }
 
@@ -205,14 +213,12 @@ public class SLL {
         SNode current = this.head;
         System.out.print("List Information:\n");
         System.out.printf("List length: %d\n", this.size);
-        System.out.printf("Sorted status:\n");               // still need to implement a method for this.
+        System.out.printf("Sorted status: " + this.isSorted() + "\n");               // still need to implement a method for this.
         for(int i = 1; current != null; i++){
             System.out.printf("Data in list item #%d: %d\n", i, current.data);
             current = current.next;
         }
     }
-
-
 }
 
 
