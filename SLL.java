@@ -151,19 +151,50 @@ public class SLL {
         }
     }
 
+    // decided to implement an insertion sort since that is what is asked for, although may come back to this and implement
+    // a merge sort if I ever get bored...
     public void sort() {
         // we can always find a better alg. later but this is what i got for now...
+        if(this.size == 0 || this.size == 1){
+            return;
+        }
+        else{
+            SNode starter = this.head;
+            SNode current = this.head;
+            while(current != null){
+                current = current.next;
+                SNode backTrack = current;
+                
 
+
+
+
+
+            }
+
+
+        }
 
     }
     public void clear() {
         this.head = null;
     }
-    
-    
+
+    public void print() {
+        SNode current = this.head;
+        System.out.print("List Information: \n");
+        System.out.printf("List length: %d", this.size);
+        System.out.print("Sorted status: ");               // still need to implement a method for this.
+        for(int i = 1; current != null; i++){
+            System.out.println("Data in list item #%d: %d", i, current.data);
+            current = current.next;
+        }
+    }
+
 
 
 
 }
+
 
 
