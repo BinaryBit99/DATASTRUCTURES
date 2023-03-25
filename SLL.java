@@ -5,7 +5,7 @@ import mylib.datastructures.nodes.SNode;
 // Documentation outlined below:
 /**
  * @authors Evan Barker & Karam Baroud
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
 
@@ -172,12 +172,12 @@ public class SLL {
                 before = current;
                 current.next = slotHolder;
                 this.head = starting;
-                
+
                 current = current.next;
             }
         }
     }
-    
+
     public void clear() {
         this.head = null;
     }
@@ -188,15 +188,12 @@ public class SLL {
         System.out.printf("List length: %d", this.size);
         System.out.print("Sorted status: ");               // still need to implement a method for this.
         for(int i = 1; current != null; i++){
-            System.out.println("Data in list item #%d: %d", i, current.data);
+            System.out.printf("Data in list item #%d: %d", i, current.data);
             current = current.next;
         }
     }
-
-
-
+    
 
 }
-
 
 
