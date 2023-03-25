@@ -13,14 +13,16 @@ public class SLL {
 
     public static void main(String[] args) {
         SLL myFirst = new SLL();
+
         SNode nodeObject = new SNode(21);
         myFirst.insertHead(nodeObject);
 
         SNode nodeObject2 = new SNode(20);   // head works.
         myFirst.insert(nodeObject2,1 );
-
+        SNode nodeObject4 = new SNode(26);
         SNode nodeObject3 = new SNode(25);   // tail works.
         myFirst.insertTail(nodeObject3);
+        myFirst.insert(nodeObject4, 2);
         myFirst.print();
         System.out.print(myFirst.isSorted());     // isSorted() method works okay.
 
@@ -82,13 +84,15 @@ public class SLL {
             this.size += 1;
         } else if (position > 1 && position < this.size) {
             SNode current = this.head;
+            SNode prev = this.head;
             int currentNum = 1;
-            while(currentNum != position-1) {
+            while(currentNum != position) {
+                prev = current;
                 current = current.next;
                 currentNum += 1;
             }
-            newNode.next = current.next;
-            current = newNode;
+            prev.next = newNode;
+            prev.next.next = current;
             this.size += 1;
         }
         else{
@@ -210,5 +214,6 @@ public class SLL {
 
 
 }
+
 
 
