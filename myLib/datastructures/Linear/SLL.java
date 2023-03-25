@@ -5,7 +5,7 @@ import mylib.datastructures.nodes.SNode;
 // Documentation outlined below:
 /**
  * @authors Evan Barker & Karam Baroud
- * @version 1.2
+ * @version 1.3
  * @since 1.0
  */
 
@@ -13,9 +13,16 @@ public class SLL {
 
     public static void main(String[] args) {
         SLL myFirst = new SLL();
-        SNode nodeObject = new SNode(32);
+        SNode nodeObject = new SNode(21);
         myFirst.insertHead(nodeObject);
+
+        SNode nodeObject2 = new SNode(20);   // head works.
+        myFirst.insert(nodeObject2,1 );
+
+        SNode nodeObject3 = new SNode(25);   // tail works.
+        myFirst.insertTail(nodeObject3);
         myFirst.print();
+        System.out.print(myFirst.isSorted());     // isSorted() method works okay.
 
     }
     private SNode head;
@@ -72,7 +79,8 @@ public class SLL {
         if(position==1) {
             newNode.next = this.head;  // eliminated a temp pointer here.
             this.head = newNode;
-        } else if (position != this.size) {
+            this.size += 1;
+        } else if (position > 1 && position < this.size) {
             SNode current = this.head;
             int currentNum = 1;
             while(currentNum != position-1) {
@@ -81,6 +89,7 @@ public class SLL {
             }
             newNode.next = current.next;
             current = newNode;
+            this.size += 1;
         }
         else{
             insertTail(newNode);  // I don't see why we can't use another method designed for this specifically...
@@ -190,17 +199,16 @@ public class SLL {
 
     public void print() {
         SNode current = this.head;
-        System.out.print("List Information: \n");
-        System.out.printf("List length: %d", this.size);
-        System.out.print("Sorted status: ");               // still need to implement a method for this.
+        System.out.print("List Information:\n");
+        System.out.printf("List length: %d\n", this.size);
+        System.out.printf("Sorted status:\n");               // still need to implement a method for this.
         for(int i = 1; current != null; i++){
-            System.out.printf("Data in list item #%d: %d", i, current.data);
+            System.out.printf("Data in list item #%d: %d\n", i, current.data);
             current = current.next;
         }
     }
 
 
 }
-
 
 
