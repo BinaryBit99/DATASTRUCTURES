@@ -19,12 +19,10 @@ public class SLL {
 
         SNode nodeObject2 = new SNode(20);   // head works.
         myFirst.insert(nodeObject2,1);
-        SNode nodeObject3 = new SNode(25);   // tail works.
-        myFirst.insert(nodeObject3, 2);
-        SNode nodeObject4 = new SNode(39);
-        myFirst.insert(nodeObject4,2 );
-        SNode nodeObject5 = new SNode(14);
+        SNode nodeObject5 = new SNode(26);
         myFirst.insertTail(nodeObject5);
+        SNode nodeObj6 = new SNode(24);
+        myFirst.insertTail(nodeObj6);
 
         myFirst.print();
         myFirst.sort();
@@ -191,27 +189,64 @@ public class SLL {
             SNode checker = current.next; // since all prev nodes will be sorted, idea with insertion sort...
             while(checker != null){
                 if(checker.data < current.data) {
-                    SNode tmp = checker.next;
-                    checker.next = current;
-                    if(tmp!=null){
-                        current.next = tmp;
-                    } else if (tmp == null) {
-                        SNode goTo = current;
-                        while(goTo.next != checker){
-                            goTo = goTo.next;
-                        }
-                        goTo.next = null;
-                        
-                    }
+                    // Modelled the two different situations below.
                     if(prevCurrent == current){
-                        prevCurrent = checker;
-                        this.head = prevCurrent;
+                        // Two options if we are switching with the first node:
+                        // Switch with a regular node, or the last node.
+                        if(checker.next == null) {  // if we are switching out with the last node.
+                            SNode goTo = current;       // goTo represents the 'new' last node...
+                            while(goTo.next != checker){
+                                goTo = goTo.next;
+                            }
+                            goTo.next = null;
+                            checker.next = current;
+                            prevCurrent = checker;
+                            checker = goTo;
+                            current = prevCurrent;
+                            this.head = current;
+
+                        } else if (checker.next != null) {
+                            SNode tmp = checker.next;
+                            checker.next = current.next;
+
+                            SNode tmpN = current.next;
+                            SNode fwdN = tmpN;
+                            while(fwdN.next != checker){
+                                fwdN = fwdN.next;
+                            }
+                            fwdN.next = current;
+                            current.next = tmp;
+                            current = checker;
+                            checker = prevCurrent;
+                            prevCurrent = current;
+                            this.head = current;
+                        }
+                    } else if (prevCurrent != current) {
+                        if(checker.next == null) {  // if we are switching out with the last node.
+                            SNode goTo = current;
+                            SNode firstTo = current.next;   // goTo represents the 'new' last node...
+                            while(goTo.next != checker){
+                                goTo = goTo.next;
+                            }
+                            current.next = null;
+                            goTo.next = current;
+                            prevCurrent.next = checker;
+                            checker.next = firstTo;
+                            goTo.next = current;
+                            SNode store = current;
+                            current = checker;
+                            checker = current;
+                        } else if (checker.next != null) {
+                            SNode before = current;
+                            while(before.next != checker){before = before.next;}
+                            before.next = checker.next;
+                            prevCurrent.next = checker;
+                            checker.next = before;
+                            current = checker;
+                            checker = before;
+                        }
                     }
-                    else{
-                        prevCurrent.next = checker;
-                    }
-                    current = checker;
-                    checker = checker.next;
+
                 }
                 checker = checker.next;
             }
