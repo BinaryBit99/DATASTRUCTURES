@@ -21,6 +21,8 @@ public class SLL {
         myFirst.insert(nodeObject2,1);
         SNode nodeObject5 = new SNode(26);
         myFirst.insertTail(nodeObject5);
+        SNode nodeObj7 = new SNode(25);
+        myFirst.insertTail(nodeObj7);
         SNode nodeObj6 = new SNode(24);
         myFirst.insertTail(nodeObj6);
 
@@ -228,14 +230,17 @@ public class SLL {
                             while(goTo.next != checker){
                                 goTo = goTo.next;
                             }
-                            current.next = null;
                             goTo.next = current;
-                            prevCurrent.next = checker;
                             checker.next = firstTo;
-                            goTo.next = current;
+                            if(checker.next==checker){
+                                checker.next = current;
+                            }
+                            prevCurrent.next = checker;
+                            current.next = null;
                             SNode store = current;
                             current = checker;
-                            checker = current;
+                            checker = store;
+
                         } else if (checker.next != null) {
                             SNode before = current;
                             while(before.next != checker){before = before.next;}
