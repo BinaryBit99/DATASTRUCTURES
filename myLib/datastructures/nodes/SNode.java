@@ -5,6 +5,8 @@
  * @since 1.0
  */
 
+package mylib.datastructures.nodes;
+
 public class SNode {
     SNode() {this.data = 0;}
     public int data; // could be any other type of data, used to display functionality of the data structure.

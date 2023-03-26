@@ -5,22 +5,22 @@
  */
 
 /*
- * LLQueue is an implementation of the queue data structure using a linked list.
+ * QueueLL is an implementation of the queue data structure using a linked list.
  * It extends the SLL class and uses some of its methods.
  * Methods that are detrimental to queue behavior are overridden.
  */
 
-package myLib.datastructures.Linear;
+package mylib.datastructures.linear;
 
-import myLib.datastructures.nodes.SNode;
+import mylib.datastructures.nodes.SNode;
 
-public class LLQueue extends SLL {
+public class QueueLL extends SLL {
 
     public static void main(String[] args) {
         //Ask Evan about one big main method to test all data structures
         //or Junit unit tests to test all data structures
 
-        LLQueue test = new LLQueue();
+        QueueLL test = new QueueLL();
         test.enqueue(new SNode(1));
         test.enqueue(new SNode(2));
         test.enqueue(new SNode(100));
@@ -48,18 +48,18 @@ public class LLQueue extends SLL {
     }
 
     /**
-     * Default LLQueue constructor. Calls the default SLL constructor.
+     * Default QueueLL constructor. Calls the default SLL constructor.
      */
-    public LLQueue() {
+    public QueueLL() {
         super();
     }
 
     /**
-     * LLQueue constructor that takes another queue's head as input.
+     * QueueLL constructor that takes another queue's head as input.
      * Calls the SLL constructor.
      * @param headInput     the head of the queue to be copied.
      */
-    public LLQueue(SNode headInput) {
+    public QueueLL(SNode headInput) {
         super(headInput);
     }
 

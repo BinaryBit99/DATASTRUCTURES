@@ -1,4 +1,4 @@
-package myLib.datastructures.nodes;
+package mylib.datastructures.nodes;
 // Hey Karam, you probably know about this already, but we have to build everything in maven, and I believe this is the correct package structure.
 // ^ temp comment.
 // Documentation outlined below:

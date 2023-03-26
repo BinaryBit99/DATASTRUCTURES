@@ -5,19 +5,19 @@
  */
 
 /*
- * LLStack is an implementation of the stack data structure using a linked list.
+ * StackLL is an implementation of the stack data structure using a linked list.
  * It extends the SLL class and uses some of its methods.
  * Methods that are detrimental to stack behavior are overridden.
  */
 
-package myLib.datastructures.Linear;
+package mylib.datastructures.linear;
 
-import myLib.datastructures.nodes.SNode;
+import mylib.datastructures.nodes.SNode;
 
-public class LLStack extends SLL {
+public class StackLL extends SLL {
     public static void main(String[] args) {
 
-        LLStack test = new LLStack();
+        StackLL test = new StackLL();
         test.push(new SNode(1));
         test.push(new SNode(2));
         test.push(new SNode(100));
@@ -41,18 +41,18 @@ public class LLStack extends SLL {
     }
 
     /**
-     * Default LLStack constructor. Calls the default SLL constructor.
+     * Default StackLL constructor. Calls the default SLL constructor.
      */
-    public LLStack() {
+    public StackLL() {
         super();
     }
 
     /**
-     * LLStack constructor that takes another stack's head as input.
+     * StackLL constructor that takes another stack's head as input.
      * Calls the SLL constructor.
      * @param headInput     the head of the stack to be copied.
      */
-    public LLStack(SNode headInput) {
+    public StackLL(SNode headInput) {
         super(headInput);
     }
     
@@ -76,7 +76,7 @@ public class LLStack extends SLL {
 
     // Overridden methods that are detrimental to stack behavior.
     @Override
-    public void insertTail(SNode newNode) { return; }
+    public void insertTail(SNode newNode) {}
 
     @Override
     public void insert(SNode newNode, int position) {}
