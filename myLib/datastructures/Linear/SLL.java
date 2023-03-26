@@ -18,14 +18,15 @@ public class SLL {
         myFirst.insertHead(nodeObject);
 
         SNode nodeObject2 = new SNode(20);   // head works.
-        myFirst.insert(nodeObject2,1 );
-        SNode nodeObject4 = new SNode(26);
+        myFirst.insert(nodeObject2,1);
         SNode nodeObject3 = new SNode(25);   // tail works.
-        myFirst.insertTail(nodeObject3);
-        myFirst.insert(nodeObject4, 2);
+        myFirst.insert(nodeObject3, 2);
+        SNode nodeObject4 = new SNode(39);
+        myFirst.insert(nodeObject4,2 );
+        SNode nodeObject5 = new SNode(14);
+        myFirst.insertTail(nodeObject5);
 
-        SNode nodeObject5 = new SNode(25);
-        myFirst.insert(nodeObject5, 5);
+        myFirst.print();
         myFirst.sort();
         myFirst.print();
         System.out.print(myFirst.isSorted());     // isSorted() method works okay.
@@ -192,8 +193,23 @@ public class SLL {
                 if(checker.data < current.data) {
                     SNode tmp = checker.next;
                     checker.next = current;
-                    current.next = tmp;
-                    prevCurrent.next = checker;
+                    if(tmp!=null){
+                        current.next = tmp;
+                    } else if (tmp == null) {
+                        SNode goTo = current;
+                        while(goTo.next != checker){
+                            goTo = goTo.next;
+                        }
+                        goTo.next = null;
+                        
+                    }
+                    if(prevCurrent == current){
+                        prevCurrent = checker;
+                        this.head = prevCurrent;
+                    }
+                    else{
+                        prevCurrent.next = checker;
+                    }
                     current = checker;
                     checker = checker.next;
                 }
@@ -203,7 +219,6 @@ public class SLL {
             current = current.next;
         }
     }
-
     public void clear() {
         this.size = 0;
         this.head = null;
@@ -213,13 +228,11 @@ public class SLL {
         SNode current = this.head;
         System.out.print("List Information:\n");
         System.out.printf("List length: %d\n", this.size);
-        System.out.printf("Sorted status: " + this.isSorted() + "\n");               // still need to implement a method for this.
+        System.out.printf("Sorted status: " + this.isSorted() +   "\n");               // still need to implement a method for this.
         for(int i = 1; current != null; i++){
             System.out.printf("Data in list item #%d: %d\n", i, current.data);
             current = current.next;
         }
     }
 }
-
-
 
