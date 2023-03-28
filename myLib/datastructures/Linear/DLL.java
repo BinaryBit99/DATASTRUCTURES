@@ -1,6 +1,4 @@
 
-// testing
-
 package mylib.datastructures.linear;
 
 import mylib.datastructures.nodes.DNode;
@@ -14,10 +12,31 @@ import mylib.datastructures.nodes.SNode;
  * @since 1.0
  */
 
-public class DLL {
+public class DLL extends SLL {
     private DNode head;
     private DNode tail;
     private int size;
+
+    public static void main(String[] args) {
+        DLL myNew = new DLL();
+        DNode myDNode = new DNode(11);
+        DNode myDNode2 = new DNode(12);
+        DNode myDNode3 = new DNode(13);
+        DNode myDNode4 = new DNode(14);
+        myNew.insertHead(myDNode);
+        myNew.print();
+        myNew.insertHead(myDNode4);
+        myNew.insertTail(myDNode2);
+        myNew.insert(myDNode3,2 );
+        myNew.print();
+        System.out.println(myNew.isSorted());
+
+        myNew.sort();
+        myNew.deleteTail();
+        myNew.deleteHead();
+        myNew.print();
+
+    }
 
     DLL() {
         this.head = null;
@@ -171,8 +190,9 @@ public class DLL {
 
     // decided to implement an insertion sort since that is what is asked for, although may come back to this and implement
     // a merge sort if I ever get bored...
+
     public void sort() {
-        // we can always find a better alg. later but this is what i got for now...
+        // we can always find a better alg. later but this is what i got for now.
         DNode current = this.head;
         DNode prevCurrent = this.head;
         while(current != null){
@@ -207,6 +227,7 @@ public class DLL {
                             fwdN.next = current;
                             current.next = tmp;
                             current = checker;
+
                             checker = prevCurrent;
                             prevCurrent = current;
                             this.head = current;
@@ -231,10 +252,12 @@ public class DLL {
 
                         } else if (checker.next != null) {
                             DNode before = current;
-                            while(before.next != checker){before = before.next;}
+                            while(before.next != checker) {
+                                before = before.next;
+                            }
                             before.next = checker.next;
                             prevCurrent.next = checker;
-                            checker.next = before;
+                            checker.next = current;
                             current = checker;
                             checker = before;
                         }
@@ -265,5 +288,5 @@ public class DLL {
             current = current.next;
         }
     }
-    
+
 }
