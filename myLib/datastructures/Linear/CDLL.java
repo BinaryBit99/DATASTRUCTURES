@@ -6,8 +6,34 @@ package mylib.datastructures.linear;
  */
 import mylib.datastructures.nodes.DNode;
 public class CDLL extends DLL {
-    private DNode head = null;
-    private DNode tail = null;
+
+    public static void main(String[] args) {
+        CDLL newCD = new CDLL();
+        DNode myNew = new DNode(5);
+        newCD.insertHead(myNew);
+        newCD.print();
+
+
+    }
+
+    @Override
+    public void print() {
+        DNode current = this.head;
+        int i = 1;
+        DNode last = current.back;
+        System.out.print("List Information:\n");
+        System.out.printf("List length: %d\n", this.size);
+        System.out.printf("Sorted status: " + this.isSorted() +   "\n");               // still need to implement a method for this.
+        do{
+            System.out.printf("Data in list item #%d: %d\n", i, current.data);
+            current = current.next;
+            i++;
+        } while(current != this.head) ;
+
+    }
+
+    private DNode head;
+    private DNode tail;
     private int size;
 
     // public CDLL constructor method, calls the DLL constructor.
@@ -31,6 +57,10 @@ public class CDLL extends DLL {
         if(this.head==null) {
             this.head = newNode;
             this.tail = newNode; // both tail and head point to the same node IF this.head == null;
+            this.head.next = this.tail;
+            this.tail.back = this.head;
+
+
             this.size += 1;
         } else if (this.head != null) {
             DNode temporary = newNode;
@@ -102,6 +132,9 @@ public class CDLL extends DLL {
         this.tail.back = null;
         this.tail = newTail;
     }
+
+
+
 
 
 
