@@ -1,7 +1,7 @@
 package mylib.datastructures.Trees;
 import mylib.datastructures.nodes.TNode;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class BST {
     // 'root' references the root of the tree.
@@ -149,22 +149,38 @@ public class BST {
         inOrder(this.root);  // pass - in root node as an argument.
     }
     public void printBF() {
-        ArrayList<TNode> intArray = new ArrayList<>();
+        LinkedList<TNode> queue = new LinkedList<>();
+        queue.add(this.root);
         int ticker = 1;
-        TNode current;
-        intArray.add(this.root);
-        while(!intArray.isEmpty()) {
-            current = intArray.get(0);
-            System.out.printf("The %d data item is: %d", ticker, current.getData());
-            ticker++;
+
+        while(!queue.isEmpty()) {
+            TNode current = queue.remove();
+            System.out.printf("Data item #%d is: %d\n", ticker, current.getData());
             if(current.getLeft() != null){
-                intArray.remove(0);
-                intArray.add(current.getLeft());
+                queue.add(current.getLeft());
             }
             if(current.getRight() != null){
-                intArray.remove(0);
-                intArray.add(current.getRight());
+                queue.add(current.getRight());
             }
+            ticker++;
         }
+        
+        // ArrayList<TNode> intArray = new ArrayList<>();
+        // int ticker = 1;
+        // TNode current;
+        // intArray.add(this.root);
+        // while(!intArray.isEmpty()) {
+        //     current = intArray.get(0);
+        //     System.out.printf("The %d data item is: %d", ticker, current.getData());
+        //     ticker++;
+        //     if(current.getLeft() != null){
+        //         intArray.remove(0);
+        //         intArray.add(current.getLeft());
+        //     }
+        //     if(current.getRight() != null){
+        //         intArray.remove(0);
+        //         intArray.add(current.getRight());
+        //     }
+        // }
     }
 }
