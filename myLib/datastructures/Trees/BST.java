@@ -7,6 +7,20 @@ public class BST {
     // 'root' references the root of the tree.
     TNode root;
 
+    public static void main(String[] args) {
+        BST tree = new BST();
+        tree.insert(5);
+        tree.insert(3);
+        tree.insert(7);
+        tree.insert(2);
+        tree.insert(4);
+        tree.insert(6);
+        tree.insert(8);
+        tree.printBF();
+        tree.delete(5);
+        tree.printBF();
+    }
+
     BST() {
         this.root = null;
     }
@@ -39,15 +53,15 @@ public class BST {
             while (true) {
                 parent = current;
                 if (val < current.getData()) {
-                    current = current.left;
+                    current = current.getLeft();
                     if (current == null) {
-                        parent.left = newNode;
+                        parent.setLeft(newNode);
                         return;
                     }
                 } else {
-                    current = current.right;
+                    current = current.getRight();
                     if (current == null) {
-                        parent.right = newNode;
+                        parent.setRight(newNode);
                         return;
                     }
                 }
@@ -65,15 +79,15 @@ public class BST {
             while (true) {
                 parent = current;
                 if (node.getData() < current.getData()) {
-                    current = current.left;
+                    current = current.getLeft();
                     if (current == null) {
-                        parent.left = node;
+                        parent.setLeft(node);
                         return;
                     }
                 } else {
-                    current = current.right;
+                    current = current.getRight();
                     if (current == null) {
-                        parent.right = node;
+                        parent.setRight(node);
                         return;
                     }
                 }
@@ -107,10 +121,10 @@ public class BST {
         TNode current = root;
         while(current.getData() != val) {
             if(val < current.getData()) {
-                current = current.left;
+                current = current.getLeft();
             }
             else {
-                current = current.right;
+                current = current.getRight();
             }
             if(current == null) {
                 return null;
@@ -126,7 +140,7 @@ public class BST {
             return;
         }
         inOrder(current.getLeft());
-        System.out.printf("Node value %d : %d", ticker, current.getData());
+        System.out.printf("Node value %d : %d\n", ticker, current.getData());
         inOrder(current.getRight());
     }
 

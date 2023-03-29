@@ -13,6 +13,6 @@ public class DNode {
     public int data; // could be any other type of data, used to display functionality of the data structure.
     public DNode next; // represents a pointer that points to the next node object in the linked list data structure.
     public DNode back; // second pointer that points to previous node.
-    DNode(int data) { this.data = data; } // Constructor used to instantiate a new node object that contains data, and can be used to point to another node in the linked list.
+    public DNode(int data) { this.data = data; } // Constructor used to instantiate a new node object that contains data, and can be used to point to another node in the linked list.
 
 }

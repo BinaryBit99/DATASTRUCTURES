@@ -17,7 +17,7 @@ public class TNode {
     int balance;
 
     // Default Constructor
-    TNode() {
+    public TNode() {
         this.data = 0;
         this.left = null;
         this.right = null;
@@ -26,7 +26,7 @@ public class TNode {
     }
 
     // Non-default constructor
-    TNode(int data, int balance, TNode P, TNode L, TNode R) {
+    public TNode(int data, int balance, TNode P, TNode L, TNode R) {
         this.data = data;
         this.balance = balance;
         this.parent = P;
@@ -36,22 +36,22 @@ public class TNode {
 
     // Getters and setters below
 
-    int getData() {
+    public int getData() {
         return this.data;
     }
 
-    TNode getLeft() {
+    public TNode getLeft() {
         return this.left;
     }
 
-    TNode getRight() {
+    public TNode getRight() {
         return this.right;
     }
-    TNode getParent() {
+    public TNode getParent() {
         return this.parent;
     }
 
-    int getBalance(){
+    public int getBalance(){
         return this.balance;
     }
 
