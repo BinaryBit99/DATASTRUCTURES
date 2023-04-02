@@ -17,8 +17,11 @@ public class BST {
         tree.insert(6);
         tree.insert(8);
         tree.printBF();
-        tree.delete(5);
-        tree.printBF();
+        System.out.println("\n----\n");
+        tree.delete(3);  // method works for deletion of leaf nodes...
+        tree.delete(7);
+        tree.printInOrder();
+
     }
 
     BST() {
@@ -56,12 +59,14 @@ public class BST {
                     current = current.getLeft();
                     if (current == null) {
                         parent.setLeft(newNode);
+                        parent.getLeft().setParent(parent);
                         return;
                     }
                 } else {
                     current = current.getRight();
                     if (current == null) {
                         parent.setRight(newNode);
+                        parent.getRight().setParent(parent);
                         return;
                     }
                 }
@@ -96,29 +101,53 @@ public class BST {
         }
     }
 
-    public void delete(int val) {
-        TNode possibleNode = search(val);  // may be null or contain a TNode object.
-        if(possibleNode==null) {return;}
-        if((possibleNode.getLeft() == null) && ((possibleNode.getRight()) == null)) { // if possibleNode has no kids
-            if(possibleNode.getParent().getRight() == possibleNode) {
-                possibleNode.getParent().setRight(null);
-            } else {
-                possibleNode.getParent().setLeft(null);
-            }
-            // If there is only one child.
-        } else if (possibleNode.getLeft() != null && possibleNode.getRight() == null) {
-            possibleNode.getParent().setLeft(possibleNode.getLeft());  // make the parent of deleted node's pointer point to only-child left
-        } else if (possibleNode.getLeft() == null && possibleNode.getRight() != null) {
-            possibleNode.getParent().setRight(possibleNode.getRight());  // make the parent of deleted node's pointer point to only-child left
-        } else if (possibleNode.getLeft() != null && possibleNode.getRight() != null) {
-            // need to figure this part out still...
-
+    /** Helper function to get the minimum key **/
+    public TNode getMinKey(TNode current) {
+        while(current.getLeft() != null) {
+            current = current.getLeft();
         }
+        return current;
+    }
 
+    public void delete(int val) {
+        // If root is null, we can move on.
+        if(this.root==null) {return;}
+        // If the vertex we are deleting has no children, but has parents, then we set the parent's node pointers to null
+        // Use other functions developed in the program to engage in efficiency.
+        TNode deleteNode = search(val);
+        TNode parent = deleteNode.getParent();
+        System.out.println(parent.getData());
+        if(deleteNode.getLeft()==null && deleteNode.getRight()==null) {
+            // We must determine if the node, deleteNode, is a left or right child of the parent node.
+            if(parent.left == deleteNode) {
+                // If the TNode object, deleteNode, has a parent, whereby the parent of this node's left-child is deleteNode itself, then
+                // we set the 'left' TNode pointer attached to the parent node to equal null. All this applies in the case of the right node also for the parent.
+                deleteNode.getParent().setLeft(null);
+            }
+            else { deleteNode.getParent().setRight(null); }
+
+        } else if ( ! ((deleteNode.getLeft().equals(null)) && (deleteNode.getRight().equals(null))) ) {
+            // fetch the in-order successor node
+            TNode successor = getMinKey(deleteNode.getRight());
+            int successorVal = successor.getData();
+            delete(successor.getData());             // Recursively delete the successor.
+            deleteNode.setData(successorVal);
+        } else {
+            TNode child = (deleteNode.getLeft() != null) ? deleteNode.getLeft() : deleteNode.getRight();
+            if (deleteNode != this.root) {
+                if (deleteNode.equals(deleteNode.getParent().getLeft())) {
+                    deleteNode.getParent().setLeft(child);
+                } else {
+                    deleteNode.getParent().setRight(child);
+                }
+            } else {
+                this.root = child;
+            }
+        }
     }
 
     public TNode search(int val) {
-        TNode current = root;
+        TNode current = this.root;
         while(current.getData() != val) {
             if(val < current.getData()) {
                 current = current.getLeft();
@@ -133,15 +162,17 @@ public class BST {
         return current;
     }
 
-
+    int mover = 1;
     public void inOrder(TNode current) {
-        int ticker = 5;
+
         if(current==null){
             return;
         }
         inOrder(current.getLeft());
-        System.out.printf("Node value %d : %d\n", ticker, current.getData());
+        System.out.printf("Node value for item #%d : %d\n", mover, current.getData());
+        mover += 1;
         inOrder(current.getRight());
+
     }
 
     public void printInOrder() {
@@ -164,7 +195,7 @@ public class BST {
             }
             ticker++;
         }
-        
+
         // ArrayList<TNode> intArray = new ArrayList<>();
         // int ticker = 1;
         // TNode current;
