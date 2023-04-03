@@ -70,6 +70,22 @@ public class AVL extends BST {
         }
     }
 
+    private void balanceAdjuster() {
+        LinkedList<TNode> queue = new LinkedList<>();
+        queue.add(this.root);
+        
+        while (!queue.isEmpty()) {
+            TNode current = queue.remove();
+            current.setBalance(height(current.getRight()) - height(current.getLeft()));
+            if(current.getLeft() != null) {
+                queue.add(current.getLeft());
+            }
+            if(current.getRight() != null) {
+                queue.add(current.getRight());
+            }
+        }
+    }
+
     @Override
     public void insert(int val) {
         TNode newNode = new TNode();
@@ -119,70 +135,90 @@ public class AVL extends BST {
 
         //case 1: pivot is null
         if(pivot == null) {
-            current = newNode;
-            while(current != null) {
-                current.setBalance(height(current.getRight()) - height(current.getLeft()));
+            System.out.println("case 1: pivot is null");
+            this.balanceAdjuster();
 
-                System.out.println("current data is: " + current.getData() + " and balance is: " + current.getBalance());
-                if(current.getParent() != null) {
-                    System.out.println("parent data is: " + current.getParent().getData() + " and balance is: " + current.getParent().getBalance());
-                }
+            // current = newNode;
+            // while(current != null) {
+            //     current.setBalance(height(current.getRight()) - height(current.getLeft()));
 
-                current = current.getParent();
+            //     System.out.println("current data is: " + current.getData() + " and balance is: " + current.getBalance());
+            //     if(current.getParent() != null) {
+            //         System.out.println("parent data is: " + current.getParent().getData() + " and balance is: " + current.getParent().getBalance());
+            //     }
 
-            }
+            //     current = current.getParent();
+
+            // }
             System.out.println("inserted " + val);
             return;
         }
 
         //case 2: pivot exists and the node is added to the shorter subtree
         else if(pivot.getBalance() == 1 && newNode.getData() <= pivot.getData()) {
-            current = newNode;
-            while(current != pivot.getParent()) {
-                current.setBalance(height(current.getRight()) - height(current.getLeft()));
-                current = current.getParent();
-            }
+            System.out.println("case 2a");
+            this.balanceAdjuster();
+            // current = newNode;
+            // while(current != pivot.getParent()) {
+            //     current.setBalance(height(current.getRight()) - height(current.getLeft()));
+            //     current = current.getParent();
+            // }
             System.out.println("inserted " + val);
             return;
         }
         else if(pivot.getBalance() == -1 && newNode.getData() > pivot.getData()) {
-            current = newNode;
-            while(current != pivot.getParent()) {
-                current.setBalance(height(current.getRight()) - height(current.getLeft()));
-                current = current.getParent();
-            }
+            System.out.println("case 2b");
+            this.balanceAdjuster();
+            // current = newNode;
+            // while(current != pivot.getParent()) {
+            //     current.setBalance(height(current.getRight()) - height(current.getLeft()));
+            //     current = current.getParent();
+            // }
             System.out.println("inserted " + val);
             return;
         }
 
         TNode ancestor = pivot.getParent();
 
+        // case 3
         if(pivot.getBalance() == 1 && newNode.getData() > pivot.getData()) {
             if(newNode.getData() > son.getData()) {
+                System.out.println("case 3a positive pivot");
                 //left rotation
                 leftRotation(ancestor, pivot, son);
 
-                pivot.setBalance(0);
+                this.balanceAdjuster();
+                // pivot.setBalance(0);
 
-                TNode balanceAdjuster = newNode.getParent();
-                while (balanceAdjuster != son) {
-                    balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
-                    balanceAdjuster = balanceAdjuster.getParent();
-                }
+                // TNode balanceAdjuster = newNode.getParent();
+                // while (balanceAdjuster != son) {
+                //     balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
+                //     balanceAdjuster = balanceAdjuster.getParent();
+                // }
                 //write helper methods for left & right rotation with specific nodes as arguments
             }
             else {
                 //RL rotation
+                System.out.println("case 3b positive pivot");
+
                 TNode grandSon = son.getLeft();
                 rlRotation(ancestor, pivot, son, grandSon);
 
-                if(newNode.getData() > grandSon.getData()) {
-                    pivot.setBalance(-1);
-                }
-                else {
-                    pivot.setBalance(0);
-                    son.setBalance(1);
-                }
+                this.balanceAdjuster();
+
+                // if(newNode.getData() > grandSon.getData()) {
+                //     pivot.setBalance(-1);
+                // }
+                // else {
+                //     pivot.setBalance(0);
+                //     son.setBalance(1);
+                // }
+
+                // TNode balanceAdjuster = newNode.getParent();
+                // while(balanceAdjuster != son && balanceAdjuster != pivot) {
+                //     balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
+                //     balanceAdjuster = balanceAdjuster.getParent();
+                // }
                 
             }
             
@@ -191,35 +227,42 @@ public class AVL extends BST {
         
         else if(pivot.getBalance() == -1 && newNode.getData() <= pivot.getData()) {
             if(newNode.getData() <= son.getData()) {
+                System.out.println("case 3a negative pivot");
                 //right rotation
                 rightRotation(ancestor, pivot, son);
 
-                pivot.setBalance(0);
+                this.balanceAdjuster();
 
-                TNode balanceAdjuster = newNode.getParent();
-                while (balanceAdjuster != son) {
-                    balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
-                    balanceAdjuster = balanceAdjuster.getParent();
-                }
+                // pivot.setBalance(0);
+
+                // TNode balanceAdjuster = newNode.getParent();
+                // while (balanceAdjuster != son) {
+                //     balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
+                //     balanceAdjuster = balanceAdjuster.getParent();
+                // }
             }
             else {
                 //LR rotation
+                System.out.println("case 3b negative pivot");
+
                 TNode grandSon = son.getRight();
                 lrRotation(ancestor, pivot, son, grandSon);
 
-                if(newNode.getData() <= grandSon.getData()) {
-                    pivot.setBalance(1);
-                }
-                else {
-                    pivot.setBalance(0);
-                    son.setBalance(-1);
-                }
+                this.balanceAdjuster();
 
-                TNode balanceAdjuster = newNode.getParent();
-                while(balanceAdjuster != son && balanceAdjuster != pivot) {
-                    balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
-                    balanceAdjuster = balanceAdjuster.getParent();
-                }
+                // if(newNode.getData() <= grandSon.getData()) {
+                //     pivot.setBalance(1);
+                // }
+                // else {
+                //     pivot.setBalance(0);
+                //     son.setBalance(-1);
+                // }
+
+                // TNode balanceAdjuster = newNode.getParent();
+                // while(balanceAdjuster != son && balanceAdjuster != pivot) {
+                //     balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
+                //     balanceAdjuster = balanceAdjuster.getParent();
+                // }
             }
         }
         System.out.println("inserted " + val);
