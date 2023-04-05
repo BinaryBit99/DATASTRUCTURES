@@ -7,21 +7,12 @@ public class AVL extends BST {
     private TNode root;
 
     public static void main(String[] args) {
-        // AVL tree = new AVL();
-        // tree.insert(5);
-        // tree.insert(3);
-        // tree.insert(7);
-        // tree.insert(6);
-        // tree.insert(2);
-        // tree.insert(8);
-        // tree.insert(4);
-        // tree.insert(20);
-        // tree.printBF();
-        // tree.insert(21);
-        // tree.printBF();
+
+
 
         // make a tree with 10 as the root, insert 20 new nodes with random values
         // between 0 and 40, print the tree, then print the height of the tree
+
         AVL tree = new AVL(10);
         Random rand = new Random();
         for(int i = 0; i < 10; i++) {
@@ -29,6 +20,8 @@ public class AVL extends BST {
             System.out.println("inserting " + val + " into tree");
             tree.insert(val);
         }
+
+
         tree.printBF();
         System.out.println("Height of tree is: " + tree.height(tree.root));
     }
@@ -66,6 +59,7 @@ public class AVL extends BST {
             if(current.getRight() != null){
                 queue.add(current.getRight());
             }
+
             ticker++;
         }
     }
@@ -73,7 +67,7 @@ public class AVL extends BST {
     private void balanceAdjuster() {
         LinkedList<TNode> queue = new LinkedList<>();
         queue.add(this.root);
-        
+
         while (!queue.isEmpty()) {
             TNode current = queue.remove();
             current.setBalance(height(current.getRight()) - height(current.getLeft()));
@@ -132,7 +126,8 @@ public class AVL extends BST {
             }
             foundPivot = false;
         }
-
+        System.out.println(newNode.getData());
+        System.out.println(current.getData());
         //case 1: pivot is null
         if(pivot == null) {
             System.out.println("case 1: pivot is null");
@@ -157,6 +152,7 @@ public class AVL extends BST {
         //case 2: pivot exists and the node is added to the shorter subtree
         else if(pivot.getBalance() == 1 && newNode.getData() <= pivot.getData()) {
             System.out.println("case 2a");
+
             this.balanceAdjuster();
             // current = newNode;
             // while(current != pivot.getParent()) {
@@ -180,9 +176,11 @@ public class AVL extends BST {
 
         TNode ancestor = pivot.getParent();
 
-        // case 3
+        // case 3 : adding to the longer subtree
+        // 3a -> adding to the outer longer subtree of the pivot node.
+        // 3b -> adding to the inner longer subtree of the pivot node
         if(pivot.getBalance() == 1 && newNode.getData() > pivot.getData()) {
-            if(newNode.getData() > son.getData()) {
+            if(newNode.getData() > son.getData()) {                             // adding to the very end long subtree...
                 System.out.println("case 3a positive pivot");
                 //left rotation
                 leftRotation(ancestor, pivot, son);
@@ -219,12 +217,12 @@ public class AVL extends BST {
                 //     balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
                 //     balanceAdjuster = balanceAdjuster.getParent();
                 // }
-                
-            }
-            
 
-        } 
-        
+            }
+
+
+        }
+
         else if(pivot.getBalance() == -1 && newNode.getData() <= pivot.getData()) {
             if(newNode.getData() <= son.getData()) {
                 System.out.println("case 3a negative pivot");
@@ -244,7 +242,7 @@ public class AVL extends BST {
             else {
                 //LR rotation
                 System.out.println("case 3b negative pivot");
-
+                System.out.println(son); // checker
                 TNode grandSon = son.getRight();
                 lrRotation(ancestor, pivot, son, grandSon);
 
@@ -270,6 +268,8 @@ public class AVL extends BST {
 
     private void rlRotation(TNode ancestor, TNode pivot, TNode son, TNode grandSon ) {
         //Right rotation around grandson
+
+
         pivot.setRight(grandSon);
         grandSon.setParent(pivot);
 
@@ -335,38 +335,56 @@ public class AVL extends BST {
         if(grandSon.getRight() != null) {
             grandSon.getRight().setParent(pivot);
         }
-
         grandSon.setRight(pivot);
         pivot.setParent(grandSon);
     }
 
     private void leftRotation(TNode ancestor, TNode pivot, TNode son ) {
         // TNode temp = pivot;
-        if(pivot != this.root) {
-            ancestor.setRight(son);
-            son.setParent(ancestor);
-        }
-        pivot.setRight(son.getLeft());
-        if(son.getLeft() != null) {
-            son.getLeft().setParent(pivot);
+        if(this.root == pivot && son.getLeft() == null && pivot.getLeft() == null) {
+            this.root = son;
+            pivot.setParent(son);
+            pivot.setRight(null);
+            son.setParent(null);
+            son.setLeft(pivot);
         }
 
-        son.setLeft(pivot);
-        pivot.setParent(son);
+        else {
+            if(pivot != this.root) {
+                ancestor.setRight(son);
+                son.setParent(ancestor);
+            }
+            pivot.setRight(son.getLeft());
+            if(son.getLeft() != null) {
+                son.getLeft().setParent(pivot);
+            }
+            son.setLeft(pivot);
+            pivot.setParent(son);
+        }
 
     }
 
     private void rightRotation(TNode ancestor, TNode pivot, TNode son) {
-        if(pivot != this.root) {
-            ancestor.setLeft(son);
-            son.setParent(ancestor);
+        if(this.root == pivot && son.getRight() == null && pivot.getRight() == null) {
+            this.root = son;
+            pivot.setParent(son);
+            pivot.setLeft(null);
+            son.setParent(null);
+            son.setRight(pivot);
         }
-        pivot.setLeft(son.getRight());
-        if(son.getRight() != null) {
-            son.getRight().setParent(pivot);
+        else {
+            if(pivot != this.root) {
+                ancestor.setLeft(son);
+                son.setParent(ancestor);
+            }
+            pivot.setLeft(son.getRight());
+            if(son.getRight() != null) {
+                son.getRight().setParent(pivot);
+            }
+
+            son.setRight(pivot);
+            pivot.setParent(son);
         }
 
-        son.setRight(pivot);
-        pivot.setParent(son);
     }
 }
