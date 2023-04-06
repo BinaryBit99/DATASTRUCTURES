@@ -16,37 +16,7 @@ import mylib.datastructures.nodes.SNode;
 
 public class QueueLL extends SLL {
 
-    public static void main(String[] args) {
-        //Ask Evan about one big main method to test all data structures
-        //or Junit unit tests to test all data structures
 
-        QueueLL test = new QueueLL();
-        test.enqueue(new SNode(1));
-        test.enqueue(new SNode(2));
-        test.enqueue(new SNode(100));
-        test.print();
-
-        test.dequeue();
-        test.print();
-
-        test.enqueue(new SNode(3));
-        test.enqueue(new SNode(57));
-        test.enqueue(new SNode(34));
-        test.enqueue(new SNode(86));
-        test.enqueue(new SNode(12));
-        test.enqueue(new SNode(72));
-        test.sort();
-
-        // System.out.println(test.Search(new SNode(57)).data);
-        test.print();
-
-        test.dequeue();
-        test.dequeue();
-        test.print();
-
-        test.clear();
-        test.print();
-    }
 
     /**
      * Default QueueLL constructor. Calls the default SLL constructor.

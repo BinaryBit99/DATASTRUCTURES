@@ -7,24 +7,9 @@ public class BST {
     // 'root' references the root of the tree.
     TNode root;
 
-    public static void main(String[] args) {
-        System.out.println("Welcome to the binary search tree data stucture.\n");
-        BST tree = new BST();
-        tree.insert(5);
-        tree.insert(3);
-        tree.insert(7);
-        tree.insert(2);
-        tree.insert(4);
-        tree.insert(6);
-        tree.insert(8);
-        tree.printBF();
-        tree.delete(3);  // method works for deletion of leaf nodes...
-        tree.delete(7);
-        tree.printBF();
 
-    }
 
-    BST() {
+    public BST() {
         this.root = null;
     }
 
@@ -116,7 +101,9 @@ public class BST {
         // Use other functions developed in the program to engage in efficiency.
         TNode deleteNode = search(val);
         TNode parent = deleteNode.getParent();
-        System.out.println(parent.getData());
+
+
+        //System.out.println(parent.getData());
         if(deleteNode.getLeft()==null && deleteNode.getRight()==null) {
             // We must determine if the node, deleteNode, is a left or right child of the parent node.
             if(parent.left == deleteNode) {
@@ -198,22 +185,6 @@ public class BST {
             ticker++;
         }
 
-        // ArrayList<TNode> intArray = new ArrayList<>();
-        // int ticker = 1;
-        // TNode current;
-        // intArray.add(this.root);
-        // while(!intArray.isEmpty()) {
-        //     current = intArray.get(0);
-        //     System.out.printf("The %d data item is: %d", ticker, current.getData());
-        //     ticker++;
-        //     if(current.getLeft() != null){
-        //         intArray.remove(0);
-        //         intArray.add(current.getLeft());
-        //     }
-        //     if(current.getRight() != null){
-        //         intArray.remove(0);
-        //         intArray.add(current.getRight());
-        //     }
-        // }
+
     }
 }

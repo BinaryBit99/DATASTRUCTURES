@@ -18,26 +18,7 @@ public class DLL extends SLL {
     private DNode tail;
     private int size;
 
-    public static void main(String[] args) {
-        DLL myNew = new DLL();
-        DNode myDNode = new DNode(11);
-        DNode myDNode2 = new DNode(12);
-        DNode myDNode3 = new DNode(13);
-        DNode myDNode4 = new DNode(14);
-        myNew.insertHead(myDNode);
-        myNew.print();
-        myNew.insertHead(myDNode4);
-        myNew.insertTail(myDNode2);
-        myNew.insert(myDNode3,2 );
-        myNew.print();
-        System.out.println(myNew.isSorted());
 
-        myNew.sort();
-        myNew.deleteTail();
-        myNew.deleteHead();
-        myNew.print();
-
-    }
 
     DLL() {
         this.head = null;

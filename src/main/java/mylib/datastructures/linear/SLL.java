@@ -11,40 +11,9 @@ import mylib.datastructures.nodes.SNode;
 
 public class SLL {
 
-    public static void main(String[] args) {     // Driver code.
-        SLL myFirst = new SLL();
+    //public static void main(String[] args) {     // Driver code.
 
-
-        SNode newObject2 = new SNode(1);
-        myFirst.insertHead(newObject2);
-        SNode nodeObject2 = new SNode(20);   // head works.
-        myFirst.insert(nodeObject2,1);
-        SNode nodeObject5 = new SNode(21);
-        myFirst.insertTail(nodeObject5);
-        SNode nodeObject6 = new SNode(11);
-        myFirst.insertTail(nodeObject6);
-        SNode nodeObject33 = new SNode(12);
-        myFirst.insertTail(nodeObject33);
-        SNode nodeObject334 = new SNode(4);
-        myFirst.insertTail(nodeObject334);
-        SNode nodeObj10 = new SNode(40);
-        myFirst.insertTail(nodeObj10);
-        SNode nodeObject = new SNode(13);
-        myFirst.insertTail(nodeObject);
-
-        SNode nodeObject21 = new SNode(9);
-        myFirst.insertTail(nodeObject21);
-        SNode nodeObject22 = new SNode(0);
-        myFirst.insertTail(nodeObject22);
-        SNode nodeObject24 = new SNode(100);
-        myFirst.insertTail(nodeObject24);
-
-        myFirst.print();
-        myFirst.sort();
-        myFirst.print();
-        System.out.print(myFirst.isSorted());     // isSorted() method works okay.
-
-    }
+    //}
     private SNode head;
     private int size;
 
