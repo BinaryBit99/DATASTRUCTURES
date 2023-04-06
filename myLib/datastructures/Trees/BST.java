@@ -119,7 +119,7 @@ public class BST {
         System.out.println(parent.getData());
         if(deleteNode.getLeft()==null && deleteNode.getRight()==null) {
             // We must determine if the node, deleteNode, is a left or right child of the parent node.
-            if(parent.left == deleteNode) {
+            if(parent.getLeft() == deleteNode) {
                 // If the TNode object, deleteNode, has a parent, whereby the parent of this node's left-child is deleteNode itself, then
                 // we set the 'left' TNode pointer attached to the parent node to equal null. All this applies in the case of the right node also for the parent.
                 deleteNode.getParent().setLeft(null);

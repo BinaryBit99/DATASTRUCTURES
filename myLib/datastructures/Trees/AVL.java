@@ -84,21 +84,15 @@ public class AVL extends BST {
 
 
         Random rand = new Random();
-        for(int j = 0; j < 1; j++) {
-            AVL tree = new AVL(10);
-            for(int i = 0; i < 11; i++) {
-                int val = rand.nextInt(40);
-                // System.out.println("inserting " + val + " into tree");
+        AVL tree = new AVL(10);
+        for(int i = 0; i < 20; i++) {
+            int val = rand.nextInt(40);
 
-                tree.insert(val);
+            tree.insert(val);
 
-            }
-            tree.printBF();
-            //System.out.println(tree.counter());
         }
-        // tree.insert(5);
-        // tree.insert(10);
-        // tree.insert(7);
+        tree.printBF();
+        System.out.println("Height of tree is: " + tree.height(tree.root));
 
 
         // System.out.println("Height of tree is: " + tree.height(tree.root));
@@ -203,7 +197,7 @@ public class AVL extends BST {
         System.out.println(parent.getData());
         if(deleteNode.getLeft()==null && deleteNode.getRight()==null) {
             // We must determine if the node, deleteNode, is a left or right child of the parent node.
-            if(parent.left == deleteNode) {
+            if(parent.getLeft() == deleteNode) {
                 // If the TNode object, deleteNode, has a parent, whereby the parent of this node's left-child is deleteNode itself, then
                 // we set the 'left' TNode pointer attached to the parent node to equal null. All this applies in the case of the right node also for the parent.
                 deleteNode.getParent().setLeft(null);
@@ -231,18 +225,153 @@ public class AVL extends BST {
         this.balanceAdjuster();         // re-balances the tree after deletion.
     }
 
-    @Override
     public void insert(int val) {
         TNode newNode = new TNode();
         newNode.setData(val);
         newNode.setBalance(0);
 
-        if (this.getRootNode() == null) {
-            this.setRoot(newNode);
+        this.insert(newNode);
+    }
+
+    private void rlRotation(TNode ancestor, TNode pivot, TNode son, TNode grandSon ) {
+        //Right rotation around grandson
+        pivot.setRight(grandSon);
+        grandSon.setParent(pivot);
+
+        son.setLeft(grandSon.getRight());
+        if(grandSon.getRight() != null) {
+            grandSon.getRight().setParent(son);
+        }
+
+        grandSon.setRight(son);
+        son.setParent(grandSon);
+
+        //left rotation through pivot(around grandson in its new position)
+        if (ancestor == null) {
+            this.root = grandSon;
+            grandSon.setParent(null);
+        }
+        else if(ancestor.getRight() == pivot) {
+            ancestor.setRight(grandSon);
+            grandSon.setParent(ancestor);
+        }
+        else {
+            ancestor.setLeft(grandSon);
+            grandSon.setParent(ancestor);
+        }
+
+        pivot.setRight(grandSon.getLeft());
+        if(grandSon.getLeft() != null) {
+            grandSon.getLeft().setParent(pivot);
+        }
+
+        grandSon.setLeft(pivot);
+        pivot.setParent(grandSon);
+    }
+
+    private void lrRotation(TNode ancestor, TNode pivot, TNode son, TNode grandSon) {
+        //Left rotation around grandson
+        pivot.setLeft(grandSon);
+        grandSon.setParent(pivot);
+
+        son.setRight(grandSon.getLeft());
+        if(grandSon.getLeft() != null) {
+            grandSon.getLeft().setParent(son);
+        }
+
+        grandSon.setLeft(son);
+        son.setParent(grandSon);
+
+        //Right rotation through pivot(around grandson in its new position)
+        if (ancestor == null) {
+            this.root = grandSon;
+            grandSon.setParent(null);
+        }
+        else if(ancestor.getLeft() == pivot) {
+            ancestor.setLeft(grandSon);
+            grandSon.setParent(ancestor);
+        }
+        else {
+            ancestor.setRight(grandSon);
+            grandSon.setParent(ancestor);
+        }
+
+        pivot.setLeft(grandSon.getRight());
+        if(grandSon.getRight() != null) {
+            grandSon.getRight().setParent(pivot);
+        }
+
+        grandSon.setRight(pivot);
+        pivot.setParent(grandSon);
+    }
+
+    private void leftRotation(TNode ancestor, TNode pivot, TNode son ) {
+        // TNode temp = pivot;
+
+
+        if(pivot != this.root) {
+            if(ancestor.getLeft() == pivot) {
+                ancestor.setLeft(son);
+                son.setParent(ancestor);
+            }
+            else {
+                ancestor.setRight(son);
+                son.setParent(ancestor);
+            }
+        }
+        pivot.setRight(son.getLeft());
+        if(son.getLeft() != null) {
+            son.getLeft().setParent(pivot);
+        }
+
+        son.setLeft(pivot);
+        pivot.setParent(son);
+
+        if(this.root == pivot) {
+            this.root = son;
+        }
+
+        son.setParent(ancestor);
+    }
+
+    private void rightRotation(TNode ancestor, TNode pivot, TNode son) {
+
+        if(pivot != this.root) {
+            if(ancestor.getRight() == pivot) {
+                ancestor.setRight(son);
+                son.setParent(ancestor);
+            }
+            else {
+                ancestor.setLeft(son);
+                son.setParent(ancestor);
+            }
+        }
+        pivot.setLeft(son.getRight());
+        if(son.getRight() != null) {
+            son.getRight().setParent(pivot);
+        }
+
+        son.setRight(pivot);
+        pivot.setParent(son);
+
+        if(this.root == pivot) {
+            this.root = son;
+        }
+
+        son.setParent(ancestor);
+    }
+
+    @Override
+    public void insert(TNode newNode) {
+
+        newNode.setBalance(0);
+
+        if (this.root == null) {
+            this.root = newNode;
             return;
         }
 
-        TNode current = this.getRootNode();
+        TNode current = this.root;
         TNode pivot = null;
         boolean foundPivot = false;
 
@@ -255,7 +384,7 @@ public class AVL extends BST {
                 foundPivot = true;
             }
 
-            if(val <= current.getData()) {
+            if(newNode.getData() <= current.getData()) {
                 if(current.getLeft() == null) {
                     current.setLeft(newNode);
                     newNode.setParent(current);
@@ -303,11 +432,11 @@ public class AVL extends BST {
                 //case 3a
                 if(newNode.getData() > son.getData()) {
                     // System.out.println("case 3a positive pivot");
-
+                   
                     leftRotation(ancestor, pivot, son);
-
+    
                     this.balanceAdjuster();
-                }
+                } 
                 else {
                     //case 3b
                     // System.out.println("case 3b positive pivot");
@@ -334,353 +463,10 @@ public class AVL extends BST {
                     // System.out.println("case 3a negative pivot");
                     //right rotation
                     rightRotation(ancestor, pivot, son);
-
+    
                     this.balanceAdjuster();
                 }
                 else {
-                    // case 3b
-                    // System.out.println("case 3b negative pivot");
-
-                    TNode grandSon = son.getRight();
-                    lrRotation(ancestor, pivot, son, grandSon);
-
-                    this.balanceAdjuster();
-
-                }
-            }
-
-        }
-        // else pivot == null {
-        //     System.out.println("case 1: pivot is null");
-        //}
-        //this.balanceAdjuster();
-        // System.out.println("inserted " + val);
-
-
-        // else if(pivot.getBalance() == -1 && newNode.getData() > pivot.getData()) {
-        //     System.out.println("case 2 negative pivot");
-        //     this.balanceAdjuster();
-        //     // current = newNode;
-        //     // while(current != pivot.getParent()) {
-        //     //     current.setBalance(height(current.getRight()) - height(current.getLeft()));
-        //     //     current = current.getParent();
-        //     // }
-        //     System.out.println("inserted " + val);
-        //     return;
-        // }
-
-        // TNode ancestor = pivot.getParent();
-
-        // // case 3
-        // if(pivot.getBalance() == 1 && newNode.getData() > pivot.getData()) {
-        //     if(newNode.getData() > son.getData()) {
-        //         System.out.println("case 3a positive pivot");
-        //         //left rotation
-        //         leftRotation(ancestor, pivot, son);
-
-        //         this.balanceAdjuster();
-        //         // pivot.setBalance(0);
-
-        //         // TNode balanceAdjuster = newNode.getParent();
-        //         // while (balanceAdjuster != son) {
-        //         //     balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
-        //         //     balanceAdjuster = balanceAdjuster.getParent();
-        //         // }
-        //         //write helper methods for left & right rotation with specific nodes as arguments
-        //     }
-        //     else {
-        //         //RL rotation
-        //         System.out.println("case 3b positive pivot");
-
-        //         TNode grandSon = son.getLeft();
-        //         rlRotation(ancestor, pivot, son, grandSon);
-
-        //         this.balanceAdjuster();
-
-        //         // if(newNode.getData() > grandSon.getData()) {
-        //         //     pivot.setBalance(-1);
-        //         // }
-        //         // else {
-        //         //     pivot.setBalance(0);
-        //         //     son.setBalance(1);
-        //         // }
-
-        //         // TNode balanceAdjuster = newNode.getParent();
-        //         // while(balanceAdjuster != son && balanceAdjuster != pivot) {
-        //         //     balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
-        //         //     balanceAdjuster = balanceAdjuster.getParent();
-        //         // }
-
-        //     }
-
-
-        // }
-
-        // else if(pivot.getBalance() == -1 && newNode.getData() <= pivot.getData()) {
-        //     if(newNode.getData() <= son.getData()) {
-        //         System.out.println("case 3a negative pivot");
-        //         //right rotation
-        //         rightRotation(ancestor, pivot, son);
-
-        //         this.balanceAdjuster();
-
-        //         // pivot.setBalance(0);
-
-        //         // TNode balanceAdjuster = newNode.getParent();
-        //         // while (balanceAdjuster != son) {
-        //         //     balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
-        //         //     balanceAdjuster = balanceAdjuster.getParent();
-        //         // }
-        //     }
-        //     else {
-        //         //LR rotation
-        //         System.out.println("case 3b negative pivot");
-
-        //         TNode grandSon = son.getRight();
-        //         lrRotation(ancestor, pivot, son, grandSon);
-
-        //         this.balanceAdjuster();
-
-        //         // if(newNode.getData() <= grandSon.getData()) {
-        //         //     pivot.setBalance(1);
-        //         // }
-        //         // else {
-        //         //     pivot.setBalance(0);
-        //         //     son.setBalance(-1);
-        //         // }
-
-        //         // TNode balanceAdjuster = newNode.getParent();
-        //         // while(balanceAdjuster != son && balanceAdjuster != pivot) {
-        //         //     balanceAdjuster.setBalance(height(balanceAdjuster.getRight()) - height(balanceAdjuster.getLeft()));
-        //         //     balanceAdjuster = balanceAdjuster.getParent();
-        //         // }
-        //     }
-        // }
-
-    }
-
-    private void rlRotation(TNode ancestor, TNode pivot, TNode son, TNode grandSon ) {
-        //Right rotation around grandson
-        pivot.setRight(grandSon);
-        grandSon.setParent(pivot);
-
-        son.setLeft(grandSon.getRight());
-        if(grandSon.getRight() != null) {
-            grandSon.getRight().setParent(son);
-        }
-
-        grandSon.setRight(son);
-        son.setParent(grandSon);
-
-        //left rotation through pivot(around grandson in its new position)
-        if (ancestor == null) {
-            this.setRoot(grandSon);
-            grandSon.setParent(null);
-        }
-        else if(ancestor.getRight() == pivot) {
-            ancestor.setRight(grandSon);
-            grandSon.setParent(ancestor);
-        }
-        else {
-            ancestor.setLeft(grandSon);
-            grandSon.setParent(ancestor);
-        }
-
-        pivot.setRight(grandSon.getLeft());
-        if(grandSon.getLeft() != null) {
-            grandSon.getLeft().setParent(pivot);
-        }
-
-        grandSon.setLeft(pivot);
-        pivot.setParent(grandSon);
-    }
-
-    private void lrRotation(TNode ancestor, TNode pivot, TNode son, TNode grandSon) {
-        //Left rotation around grandson
-        pivot.setLeft(grandSon);
-        grandSon.setParent(pivot);
-
-        son.setRight(grandSon.getLeft());
-        if(grandSon.getLeft() != null) {
-            grandSon.getLeft().setParent(son);
-        }
-
-        grandSon.setLeft(son);
-        son.setParent(grandSon);
-
-        //Right rotation through pivot(around grandson in its new position)
-        if (ancestor == null) {
-            this.setRoot(grandSon);
-            grandSon.setParent(null);
-        }
-        else if(ancestor.getLeft() == pivot) {
-            ancestor.setLeft(grandSon);
-            grandSon.setParent(ancestor);
-        }
-        else {
-            ancestor.setRight(grandSon);
-            grandSon.setParent(ancestor);
-        }
-
-        pivot.setLeft(grandSon.getRight());
-        if(grandSon.getRight() != null) {
-            grandSon.getRight().setParent(pivot);
-        }
-
-        grandSon.setRight(pivot);
-        pivot.setParent(grandSon);
-    }
-
-    private void leftRotation(TNode ancestor, TNode pivot, TNode son ) {
-        if(pivot != this.getRootNode()) {
-            if(ancestor.getLeft() == pivot) {
-                ancestor.setLeft(son);
-                son.setParent(ancestor);
-            }
-            else {
-                ancestor.setRight(son);
-                son.setParent(ancestor);
-            }
-        }
-        pivot.setRight(son.getLeft());
-        if(son.getLeft() != null) {
-            son.getLeft().setParent(pivot);
-        }
-
-        son.setLeft(pivot);
-        pivot.setParent(son);
-
-        if(this.getRootNode() == pivot) {
-            this.setRoot(son);
-        }
-
-        son.setParent(ancestor);
-    }
-
-    private void rightRotation(TNode ancestor, TNode pivot, TNode son) {
-
-        if(pivot != this.root) {
-            if(ancestor.getRight() == pivot) {
-                ancestor.setRight(son);
-                son.setParent(ancestor);
-            }
-            else {
-                ancestor.setLeft(son);
-                son.setParent(ancestor);
-            }
-        }
-        pivot.setLeft(son.getRight());
-        if(son.getRight() != null) {
-            son.getRight().setParent(pivot);
-        }
-
-        son.setRight(pivot);
-        pivot.setParent(son);
-
-        if(this.getRootNode() == pivot) {
-            this.setRoot(son);
-        }
-
-        son.setParent(ancestor);
-    }
-
-    @Override
-    public void insert(TNode node) {
-
-        if (this.getRootNode() == null) {
-            this.setRoot(node);
-            return;
-        }
-        TNode current = this.getRootNode();
-        TNode pivot = null;
-        boolean foundPivot = false;
-
-        TNode son = null;
-
-        while (true) {
-            if (current.getBalance() != 0) {
-                pivot = current;
-                foundPivot = true;
-            }
-
-            if (node.getData() <= current.getData()) {
-                if (current.getLeft() == null) {
-                    current.setLeft(node);
-                    node.setParent(current);
-                    break;
-                } else {
-                    current = current.getLeft();
-                    son = foundPivot ? pivot.getLeft() : son;
-                }
-
-            } else {
-                if (current.getRight() == null) {
-                    current.setRight(node);
-                    node.setParent(current);
-                    break;
-                } else {
-                    current = current.getRight();
-                    son = foundPivot ? pivot.getRight() : son;
-                }
-            }
-            foundPivot = false;
-        }
-
-        //case 1: pivot is null
-        if (pivot == null) {
-            // System.out.println("case 1: pivot is null");
-            this.balanceAdjuster();
-
-            // System.out.println("inserted " + val);
-            // return;
-        }
-
-        //case 2: pivot exists and the node is added to the shorter subtree
-        //if pivot.getBalance() == 1
-        else if (pivot.getBalance() == 1 /* && newNode.getData() <= pivot.getData() */) {
-            TNode ancestor = pivot.getParent();
-
-            // case 2
-            if (node.getData() <= pivot.getData()) {
-                // System.out.println("case 2 positive pivot");
-                this.balanceAdjuster();
-                // System.out.println("inserted " + val);
-                // return;
-            } else {
-                //case 3a
-                if (node.getData() > son.getData()) {
-                    // System.out.println("case 3a positive pivot");
-
-                    leftRotation(ancestor, pivot, son);
-
-                    this.balanceAdjuster();
-                } else {
-                    //case 3b
-                    // System.out.println("case 3b positive pivot");
-
-                    TNode grandSon = son.getLeft();
-                    rlRotation(ancestor, pivot, son, grandSon);
-
-                    this.balanceAdjuster();
-                }
-            }
-        } else if (pivot.getBalance() == -1) {
-            TNode ancestor = pivot.getParent();
-            // case 2
-            if (node.getData() > pivot.getData()) {
-                // System.out.println("case 2 negative pivot");
-                this.balanceAdjuster();
-                // System.out.println("inserted " + val);
-                // return;
-            } else {
-                //case 3a
-                if (node.getData() <= son.getData()) {
-                    // System.out.println("case 3a negative pivot");
-                    //right rotation
-                    rightRotation(ancestor, pivot, son);
-
-                    this.balanceAdjuster();
-                } else {
                     // case 3b
                     // System.out.println("case 3b negative pivot");
 
