@@ -1,4 +1,4 @@
-package mylib.datastructures.Trees;
+package mylib.datastructures.trees;
 
 import mylib.datastructures.nodes.TNode;
 import java.util.*;
@@ -6,97 +6,6 @@ import java.util.*;
 public class AVL extends BST {
     private TNode root;
 
-    public static void main(String[] args) {
-        // AVL tree = new AVL();
-        // tree.insert(5);
-        // tree.insert(3);
-        // tree.insert(7);
-        // tree.insert(6);
-        // tree.insert(2);
-        // tree.insert(8);
-        // tree.insert(4);
-        // tree.insert(20);
-        // tree.printBF();
-        // tree.insert(21);
-        // tree.printBF();
-
-        // make a tree with 10 as the root, insert 20 new nodes with random values
-        // between 0 and 40, print the tree, then print the height of the tree
-
-        // System.out.println("inserting " + 18 + " into tree");
-        // tree.insert(18);
-        // tree.printBF();
-        // System.out.println("inserting " + 36 + " into tree");
-        // tree.insert(36);
-        // tree.printBF();
-        // System.out.println("inserting " + 15 + " into tree");
-        // tree.insert(15);
-        // tree.printBF();
-        // System.out.println("inserting " + 8 + " into tree");
-        // tree.insert(8);
-        // tree.printBF();
-        // System.out.println("inserting " + 22 + " into tree");
-        // tree.insert(22);
-        // tree.printBF();
-        // System.out.println("inserting " + 33 + " into tree");
-        // tree.insert(33);
-        // tree.printBF();
-        // System.out.println("inserting " + 9 + " into tree");
-        // tree.insert(9);
-        // tree.printBF();
-        // System.out.println("inserting " + 24 + " into tree");
-        // tree.insert(24);
-        // tree.printBF();
-        // System.out.println("inserting " + 33 + " into tree");
-        // tree.insert(33);
-        // tree.printBF();
-        // System.out.println("inserting " + 28 + " into tree");
-        // tree.insert(28);
-        // tree.printBF();
-        // System.out.println("inserting " + 28 + " into tree");
-        // tree.insert(28);
-        // tree.printBF();
-        // System.out.println("inserting " + 14 + " into tree");
-        // tree.insert(14);
-        // tree.printBF();
-        // System.out.println("inserting " + 4 + " into tree");
-        // tree.insert(4);
-        // System.out.println("inserting " + 15 + " into tree");
-        // tree.insert(15);
-        // tree.printBF();
-        // System.out.println("inserting " + 23 + " into tree");
-        // tree.insert(23);
-        // tree.printBF();
-        // System.out.println("inserting " + 2 + " into tree");
-        // tree.insert(2);
-        // tree.printBF();
-        // System.out.println("inserting " + 15 + " into tree");
-        // tree.insert(15);
-        // tree.printBF();
-        // System.out.println("inserting " + 14 + " into tree");
-        // tree.insert(14);
-        // tree.printBF();
-        // System.out.println("inserting " + 39 + " into tree");
-        // tree.insert(39);
-        // tree.printBF();
-        // System.out.println("inserting " + 5 + " into tree");
-        // tree.insert(5);
-
-
-        Random rand = new Random();
-        AVL tree = new AVL(10);
-        for(int i = 0; i < 20; i++) {
-            int val = rand.nextInt(40);
-
-            tree.insert(val);
-
-        }
-        tree.printBF();
-        System.out.println("Height of tree is: " + tree.height(tree.root));
-
-
-        // System.out.println("Height of tree is: " + tree.height(tree.root));
-    }
 
     /** getter that allows for OOP encapsulation design **/
     public TNode getRootNode() {
@@ -185,6 +94,23 @@ public class AVL extends BST {
         }
     }
 
+    @Override
+    public TNode search(int val) {
+        TNode current = this.root;
+        while(current.getData() != val) {
+            if(val < current.getData()) {
+                current = current.getLeft();
+            }
+            else {
+                current = current.getRight();
+            }
+            if(current == null) {
+                return null;
+            }
+        }
+        return current;
+    }
+
 
     @Override
     public void delete(int val) {
@@ -194,7 +120,8 @@ public class AVL extends BST {
         // Use other functions developed in the program to engage in efficiency.
         TNode deleteNode = search(val);
         TNode parent = deleteNode.getParent();
-        System.out.println(parent.getData());
+
+        //System.out.println(parent.getData());
         if(deleteNode.getLeft()==null && deleteNode.getRight()==null) {
             // We must determine if the node, deleteNode, is a left or right child of the parent node.
             if(parent.getLeft() == deleteNode) {
@@ -432,11 +359,11 @@ public class AVL extends BST {
                 //case 3a
                 if(newNode.getData() > son.getData()) {
                     // System.out.println("case 3a positive pivot");
-                   
+
                     leftRotation(ancestor, pivot, son);
-    
+
                     this.balanceAdjuster();
-                } 
+                }
                 else {
                     //case 3b
                     // System.out.println("case 3b positive pivot");
@@ -463,7 +390,7 @@ public class AVL extends BST {
                     // System.out.println("case 3a negative pivot");
                     //right rotation
                     rightRotation(ancestor, pivot, son);
-    
+
                     this.balanceAdjuster();
                 }
                 else {

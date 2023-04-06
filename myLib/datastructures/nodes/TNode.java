@@ -1,20 +1,12 @@
 package mylib.datastructures.nodes;
 
-// * Making habit of frequent use of docstring in programs.
-/**
- * @authors Evan Barker & Karam Baroud
- * @version 1.0
- * @since 1.0
- */
-
-
 public class TNode {
     // Data members below
-    int data;
-    TNode left;
-    TNode right;
-    TNode parent;
-    int balance;
+    public int data;
+    public TNode left;
+    public TNode right;
+    public TNode parent;
+    public int balance;
 
     // Default Constructor
     public TNode() {
@@ -75,9 +67,10 @@ public class TNode {
         this.right = right;
     }
 
-    public void print() {
+    public boolean printNode() {
         System.out.printf("The data for this tree node is: %d", this.getData());
         System.out.printf("The balance for this node is: %d", this.getBalance());
+        return false;
     }
 
     public String toString() {

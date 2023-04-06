@@ -7,14 +7,6 @@ package mylib.datastructures.linear;
 import mylib.datastructures.nodes.DNode;
 public class CDLL extends DLL {
 
-    public static void main(String[] args) {
-        CDLL newCD = new CDLL();
-        DNode myNew = new DNode(5);
-        newCD.insertHead(myNew);
-        newCD.print();
-
-
-    }
 
     @Override
     public void print() {
@@ -139,4 +131,3 @@ public class CDLL extends DLL {
 
 
 }
-

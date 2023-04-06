@@ -1,4 +1,4 @@
-package mylib.datastructures.Trees;
+package mylib.datastructures.trees;
 import mylib.datastructures.nodes.TNode;
 
 import java.util.*;
@@ -7,24 +7,9 @@ public class BST {
     // 'root' references the root of the tree.
     TNode root;
 
-    public static void main(String[] args) {
-        BST tree = new BST();
-        tree.insert(5);
-        tree.insert(3);
-        tree.insert(7);
-        tree.insert(2);
-        tree.insert(4);
-        tree.insert(6);
-        tree.insert(8);
-        tree.printBF();
-        System.out.println("\n----\n");
-        tree.delete(3);  // method works for deletion of leaf nodes...
-        tree.delete(7);
-        tree.printInOrder();
 
-    }
 
-    BST() {
+    public BST() {
         this.root = null;
     }
 
@@ -116,7 +101,9 @@ public class BST {
         // Use other functions developed in the program to engage in efficiency.
         TNode deleteNode = search(val);
         TNode parent = deleteNode.getParent();
-        System.out.println(parent.getData());
+
+
+        //System.out.println(parent.getData());
         if(deleteNode.getLeft()==null && deleteNode.getRight()==null) {
             // We must determine if the node, deleteNode, is a left or right child of the parent node.
             if(parent.getLeft() == deleteNode) {
@@ -177,9 +164,11 @@ public class BST {
 
     public void printInOrder() {
         // Thinking we can just implement a recursive approach to in-order traversing...
+        System.out.println("\n----\n");
         inOrder(this.root);  // pass - in root node as an argument.
     }
     public void printBF() {
+        System.out.println("\n----\n");
         LinkedList<TNode> queue = new LinkedList<>();
         queue.add(this.root);
         int ticker = 1;
@@ -196,22 +185,6 @@ public class BST {
             ticker++;
         }
 
-        // ArrayList<TNode> intArray = new ArrayList<>();
-        // int ticker = 1;
-        // TNode current;
-        // intArray.add(this.root);
-        // while(!intArray.isEmpty()) {
-        //     current = intArray.get(0);
-        //     System.out.printf("The %d data item is: %d", ticker, current.getData());
-        //     ticker++;
-        //     if(current.getLeft() != null){
-        //         intArray.remove(0);
-        //         intArray.add(current.getLeft());
-        //     }
-        //     if(current.getRight() != null){
-        //         intArray.remove(0);
-        //         intArray.add(current.getRight());
-        //     }
-        // }
+
     }
 }
