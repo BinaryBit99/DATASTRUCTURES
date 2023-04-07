@@ -188,20 +188,30 @@ public class TestDataStructures {
         tree.delete(7);
         tree.printBF();
 
-        System.out.print("\n/** Tests the AVL and it's functionalities **/\n");
+        System.out.print("\n/** Tests the AVL and it's functionalities **/\n\n");
 
+        System.out.println("Testing 1-arg integer ctor and insert(int val) method:");
         Random rand = new Random();
         AVL treeAVL = new AVL(10);
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < 5; i++) {
             int val = rand.nextInt(40);
-            tree.insert(val);
-            tree.printBF();
+            treeAVL.insert(val);
         }
-        TNode delete = treeAVL.getRootNode();
-        //tree.delete(delete.getData());
-        tree.printBF();
+        treeAVL.printBF();
         System.out.println("Height of tree is: " + treeAVL.height(treeAVL.getRootNode()));
+        System.out.println();
 
+        System.out.println("Testing 1-arg Node ctor and insert(Node node) method:");
+        AVL treeAVL2 = new AVL(new TNode(10, 0, null, null, null));
+
+        for(int i = 0; i < 5; i++) {
+            int val = rand.nextInt(40);
+            treeAVL2.insert(new TNode(val, 0, null, null, null));
+        }
+
+        treeAVL2.printBF();
+        System.out.println("Height of tree is: " + treeAVL2.height(treeAVL2.getRootNode()));
+        System.out.println();
 
     }
 

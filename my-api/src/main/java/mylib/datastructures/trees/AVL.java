@@ -53,10 +53,10 @@ public class AVL extends BST {
 
     /**
      * 1-argument AVL constructor. Sets the root node to the node passed in.
-     * @param nodeIn    the node that will be the root node.
+     * @param obj    the node that will be the root node.
      */
-    public AVL(TNode nodeIn) {
-        this.setRoot(nodeIn);
+    public AVL(TNode obj) {
+        this.setRootNode(obj);
     }
 
 
