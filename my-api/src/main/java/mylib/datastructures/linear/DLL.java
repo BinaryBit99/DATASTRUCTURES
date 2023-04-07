@@ -22,7 +22,7 @@ public class DLL extends SLL {
     /**
      * No-arg constructor for DLL. Initializes head and tail to null, and size to 0.
      */
-    DLL() {
+    public DLL() {
         this.head = null;
         this.tail = null;
         this.size = 0;
@@ -32,7 +32,7 @@ public class DLL extends SLL {
      * DLL constructor that takes a head node as its input.
      * @param headInput  A node that will be the head of the new DLL.
      */
-    DLL(DNode headInput){
+    public DLL(DNode headInput){
         this.head = headInput;     // head and tail both point to same node.
         this.tail = headInput;
         DNode temporary = headInput;

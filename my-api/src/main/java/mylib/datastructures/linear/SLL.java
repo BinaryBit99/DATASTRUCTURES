@@ -22,7 +22,7 @@ public class SLL {
     /**
      * Default SLL constructor. Sets head to null and size to 0.
      */
-    SLL() {
+    public SLL() {
         this.head = null;
         this.size = 0;
     }
@@ -31,7 +31,7 @@ public class SLL {
      * SLL constructor that takes a head node as its input.
      * @param headInput A node that will be the head of the new SLL.
      */
-    SLL(SNode headInput){
+    public SLL(SNode headInput){
         this.head = headInput;
         SNode temporary = headInput;
         while(temporary != null) {   // this is a way to update the size of the L.

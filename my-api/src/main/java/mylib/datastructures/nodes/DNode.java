@@ -15,7 +15,7 @@ public class DNode {
     /**
      * Default DNode constructor. Sets the data to 0.
      */
-    DNode() {this.data = 0;}
+    public DNode() {this.data = 0;}
 
     public int data; // could be any other type of data, used to display functionality of the data structure.
     public DNode next; // represents a pointer that points to the next node object in the linked list data structure.

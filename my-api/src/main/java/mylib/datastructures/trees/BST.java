@@ -30,7 +30,7 @@ public class BST {
      * BST constructor that takes in an int as input. Sets root to a new TNode object with the data set to the input value.
      * @param val    the data to be stored in the root node.
      */
-    BST(int val) {
+    public BST(int val) {
         this.root = new TNode();
         root.setData(val);  // ensure that setters are used in constructor to align with OOP principles.
     }
@@ -39,7 +39,7 @@ public class BST {
      * BST constructor that takes in a TNode as input. Sets root to the input value.
      * @param obj   the TNode object to be set as the root.
      */
-    BST(TNode obj) {
+    public BST(TNode obj) {
         this.root = obj;
     }
 
