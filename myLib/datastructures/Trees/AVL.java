@@ -3,54 +3,68 @@ package mylib.datastructures.trees;
 import mylib.datastructures.nodes.TNode;
 import java.util.*;
 
+/**
+ * @authors Evan Barker & Karam Baroud
+ * @version 1.5
+ * @since 1.0
+ */
+
+/**
+ * AVL is a self-balancing binary search tree that is used to store data in a sorted order.
+ * It is a subclass of BST. The balance must always be either -1, 0, or 1.
+ */
 public class AVL extends BST {
     private TNode root;
 
 
-    /** getter that allows for OOP encapsulation design **/
+    /**
+     * @return the root node of the AVL tree.
+     */
     public TNode getRootNode() {
         return this.root;
     }
 
-    /** setter that allows for OOP encapsulation design **/
+    /**
+     * Sets the root node of the AVL tree.
+     * @param incoming  The node that will be the new root.
+     */
     public void setRootNode(TNode incoming) {
         this.root = incoming;
+        this.root.setParent(null);
+        //change this
     }
 
-    //this is just a helper method I used when testing
-    public int counter() {
-        LinkedList<TNode> queue = new LinkedList<>();
-        queue.add(this.root);
-        int ticker = 0;
-
-        while(!queue.isEmpty()) {
-            TNode current = queue.remove();
-            if(current.getLeft() != null){
-                queue.add(current.getLeft());
-            }
-            if(current.getRight() != null){
-                queue.add(current.getRight());
-            }
-            ticker++;
-        }
-        return ticker;
-    }
-
+    /**
+     * Default AVL constructor. Sets the root node to null.
+     */
     public AVL() {
         this.setRootNode(null);
     }
 
+    /**
+     * 1-argument AVL constructor. Sets the root node to a new node with the data passed in.
+     * @param val   the data to be stored in the root node.
+     */
     public AVL(int val) {
         this.setRootNode(new TNode());
-        root.setData(val);
-        root.setBalance(0);
+        this.root.setData(val);
+        this.root.setBalance(0);
     }
 
+    /**
+     * 1-argument AVL constructor. Sets the root node to the node passed in.
+     * @param nodeIn    the node that will be the root node.
+     */
     public AVL(TNode nodeIn) {
         this.setRoot(nodeIn);
     }
 
 
+    /**
+     * Determines the height of the tree/subtree rooted at the node passed in.
+     * @param node  the node that is the root of the tree/subtree.
+     * @return    the height of the tree/subtree.
+     */
     public int height(TNode node) {
         if(node == null) {
             return 0;
@@ -59,6 +73,9 @@ public class AVL extends BST {
         }
     }
 
+    /**
+     * Prints each node in the tree in breadth-first order.
+     */
     @Override
     public void printBF() {
         LinkedList<TNode> queue = new LinkedList<>();
@@ -78,6 +95,9 @@ public class AVL extends BST {
         }
     }
 
+    /**
+     * Goes through the tree in a breadth-first order and adjusts the balance of each node.
+     */
     private void balanceAdjuster() {
         LinkedList<TNode> queue = new LinkedList<>();
         queue.add(this.getRootNode());
@@ -94,24 +114,38 @@ public class AVL extends BST {
         }
     }
 
+    /**
+     * Searches for the node with the same data as the value passed in.
+     * @param val   the value to be searched for.
+     * @return      the node with the same data as the value passed in.
+     */
     @Override
     public TNode search(int val) {
-        TNode current = this.root;
-        while(current.getData() != val) {
-            if(val < current.getData()) {
-                current = current.getLeft();
+        LinkedList<TNode> queue = new LinkedList<>();
+        queue.add(this.getRootNode());
+
+        while (!queue.isEmpty() && queue.peek().getData() != val) {
+            TNode current = queue.remove();
+
+            if(current.getLeft() != null) {
+                queue.add(current.getLeft());
             }
-            else {
-                current = current.getRight();
-            }
-            if(current == null) {
-                return null;
+            if(current.getRight() != null) {
+                queue.add(current.getRight());
             }
         }
-        return current;
+        if(queue.isEmpty()) {
+            return null;
+        } else {
+            return queue.remove();
+        }
     }
 
 
+    /**
+     * deletes the node with the same data as the value passed in.
+     * @param val   the value to be deleted.
+     */
     @Override
     public void delete(int val) {
         // If root is null, we can move on.
@@ -152,14 +186,24 @@ public class AVL extends BST {
         this.balanceAdjuster();         // re-balances the tree after deletion.
     }
 
+    /**
+     * Inserts a node into the tree. Has an integer parameter. This method creates a new TNode object and 
+     * calls the other insert method with the new TNode object as a parameter.
+     */
     public void insert(int val) {
         TNode newNode = new TNode();
         newNode.setData(val);
-        newNode.setBalance(0);
 
         this.insert(newNode);
     }
 
+    /**
+     * Performs an RL rotation on the specified nodes.
+     * @param ancestor  The parent of the pivot node.
+     * @param pivot     The unbalanced node closest to the newly inserted node.
+     * @param son       The child of the pivot node on the same side as the grandson.
+     * @param grandSon  The child of the son node on the same path as the newly inserted node.
+     */
     private void rlRotation(TNode ancestor, TNode pivot, TNode son, TNode grandSon ) {
         //Right rotation around grandson
         pivot.setRight(grandSon);
@@ -196,6 +240,13 @@ public class AVL extends BST {
         pivot.setParent(grandSon);
     }
 
+    /**
+     * Performs an LR rotation on the specified nodes.
+     * @param ancestor  The parent of the pivot node.
+     * @param pivot     The unbalanced node closest to the newly inserted node.
+     * @param son       The child of the pivot node on the same side as the grandson.
+     * @param grandSon  The child of the son node on the same path as the newly inserted node.
+     */
     private void lrRotation(TNode ancestor, TNode pivot, TNode son, TNode grandSon) {
         //Left rotation around grandson
         pivot.setLeft(grandSon);
@@ -232,9 +283,13 @@ public class AVL extends BST {
         pivot.setParent(grandSon);
     }
 
+    /**
+     * Performs a left rotation on the specified nodes.
+     * @param ancestor  The parent of the pivot node.
+     * @param pivot     The unbalanced node closest to the newly inserted node.
+     * @param son       The child of the pivot node on the same path as the newly inserted node.
+     */
     private void leftRotation(TNode ancestor, TNode pivot, TNode son ) {
-        // TNode temp = pivot;
-
 
         if(pivot != this.root) {
             if(ancestor.getLeft() == pivot) {
@@ -261,6 +316,12 @@ public class AVL extends BST {
         son.setParent(ancestor);
     }
 
+    /**
+     * Performs a right rotation on the specified nodes.
+     * @param ancestor  The parent of the pivot node.
+     * @param pivot     The unbalanced node closest to the newly inserted node.
+     * @param son       The child of the pivot node on the same path as the newly inserted node.
+     */
     private void rightRotation(TNode ancestor, TNode pivot, TNode son) {
 
         if(pivot != this.root) {
@@ -288,6 +349,13 @@ public class AVL extends BST {
         son.setParent(ancestor);
     }
 
+    /**
+     * Inserts a new node into the tree. There are 4 cases:
+     * 1. The pivot is null. The new node is inserted and balances are updated.
+     * 2. The new node is added to the shorter subtree of the pivot. The new node is inserted and balances are updated.
+     * 3. The new node is added to the longer subtree of the pivot. Rotations are performed and balances are updated.
+     * 4. The tree is empty. The new node becomes the root.
+     */
     @Override
     public void insert(TNode newNode) {
 

@@ -124,8 +124,8 @@ public class TestDataStructures {
         //tests 1-arg constructor
         System.out.println("Testing 1-arg constructor...");
         SNode newHead = new SNode(1);
-        QueueLL testQueueLL = new QueueLL(head);
-        test2.print();
+        QueueLL testQueueLL = new QueueLL(newHead);
+        testQueueLL.print();
         System.out.println();
 
 

@@ -1,13 +1,23 @@
 package mylib.datastructures.linear;
 /**
  * @authors Evan Barker & Karam Baroud
- * @version 1.0
+ * @version 1.2
  * @since 1.0
  */
+
 import mylib.datastructures.nodes.DNode;
+
+/**
+ * CDLL is a circular doubly linked list class. It extends the DLL class. It has
+ * It has a head and a tail, and the tail points to the head, and the head points
+ * to the tail to complete the loop.
+ */
 public class CDLL extends DLL {
 
 
+    /**
+     * print() is a method that prints out the contents of the linked list.
+     */
     @Override
     public void print() {
         DNode current = this.head;
@@ -15,7 +25,7 @@ public class CDLL extends DLL {
         DNode last = current.back;
         System.out.print("List Information:\n");
         System.out.printf("List length: %d\n", this.size);
-        System.out.printf("Sorted status: " + this.isSorted() +   "\n");               // still need to implement a method for this.
+        System.out.printf("Sorted status: " + this.isSorted() +   "\n");        
         do{
             System.out.printf("Data in list item #%d: %d\n", i, current.data);
             current = current.next;
@@ -28,11 +38,17 @@ public class CDLL extends DLL {
     private DNode tail;
     private int size;
 
-    // public CDLL constructor method, calls the DLL constructor.
+    /**
+     * public CDLL constructor method, calls the DLL constructor.
+     */
     public CDLL() {
         super();
     }
 
+    /**
+     * CDLL constructor method that takes in a DNode as input.
+     * @param input
+     */
     public CDLL(DNode input) {
         // head and tail both point to the same node.
         this.head = input;
@@ -43,6 +59,10 @@ public class CDLL extends DLL {
         this.size += 1;
     }
 
+    /**
+     * insertHead() is a method that inserts a new node at the head of the linked list.
+     * @param newNode   the new node to be inserted.
+     */
     @Override
     public void insertHead(DNode newNode){
         // One of two scenarios while trying to insert a new head.
@@ -65,6 +85,10 @@ public class CDLL extends DLL {
         }
     }
 
+    /**
+     * insertTail() is a method that inserts a new node at the tail of the linked list.
+     * @param newNode   the new node to be inserted.
+     */
     @Override
     public void insertTail(DNode newNode) {
         if(this.head==null) {
@@ -81,6 +105,11 @@ public class CDLL extends DLL {
         }
     }
 
+    /**
+     * insert() is a method that inserts a new node at a specified position in the linked list.
+     * @param newNode   the new node to be inserted.
+     * @param position  the position at which the new node will be inserted.
+     */
     @Override
     public void insert(DNode newNode, int position) {
         // One of three cases:
@@ -107,6 +136,9 @@ public class CDLL extends DLL {
         }
     }
 
+    /**
+     * deleteHead() is a method that deletes the head node of the linked list.
+     */
     @Override
     public void deleteHead() {
         if(this.head==null){return;}
@@ -117,6 +149,9 @@ public class CDLL extends DLL {
         this.head = nextUp;
     }
 
+    /**
+     * deleteTail() is a method that deletes the tail node of the linked list.
+     */
     @Override
     public void deleteTail() {
         DNode newTail = this.tail.back;

@@ -1,18 +1,18 @@
 /**
  * @authors Evan Barker & Karam Baroud
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
 
-/*
+package mylib.datastructures.linear;
+
+import mylib.datastructures.nodes.SNode;
+ 
+
+/**
  * CSLL is a circular singly linked list. It is a subclass of SLL.
  * All methods of SLL except clear() are overridden to account for the circular nature of the list.
  */
-
- package mylib.datastructures.linear;
-
- import mylib.datastructures.nodes.SNode;
- 
  public class CSLL extends SLL {
      private SNode head = null;
      private int size;
@@ -35,22 +35,6 @@
          this.head = headInput;
          this.head.next = this.head;
          this.size = 1;
- 
-         // if(headInput == null) {
-         //     this.head = null;
-         //     this.size = 0;
-         // } else {
-         //     this.head = new SNode(headInput.data);
-         //     this.size = 1;
-         //     this.head.next = this.head;
- 
-         //     SNode temporary = headInput;
-         //     while(temporary.next != headInput) {
-         //         SNode newNode = new SNode(temporary.next.data);
-         //         this.insertTail(newNode);
-         //         temporary = temporary.next;
-         //     }
-         // }
      }
  
      /**
@@ -302,7 +286,7 @@
  
      /**
       * Inserts a node into the list in sorted order.
-      * If the list is not sorted, it will be sorted first.
+      * If the list is not sorted, it will call sort() first.
       * @param node  The node to be inserted.
       */
      @Override

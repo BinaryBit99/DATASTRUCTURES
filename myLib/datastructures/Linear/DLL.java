@@ -1,16 +1,17 @@
-
-
 package mylib.datastructures.linear;
 
 import mylib.datastructures.nodes.DNode;
 import mylib.datastructures.nodes.SNode;
 
-
-// Documentation outlined below:
 /**
  * @authors Evan Barker & Karam Baroud
  * @version 1.2
  * @since 1.0
+ */
+
+/**
+ * DLL is a doubly linked list. It is a subclass of SLL. It uses both a head and a tail pointer.
+ * The node used is a DNode which has a back pointer as well as a next pointer.
  */
 
 public class DLL extends SLL {
@@ -18,14 +19,19 @@ public class DLL extends SLL {
     private DNode tail;
     private int size;
 
-
-
+    /**
+     * No-arg constructor for DLL. Initializes head and tail to null, and size to 0.
+     */
     DLL() {
         this.head = null;
         this.tail = null;
         this.size = 0;
     }
 
+    /**
+     * DLL constructor that takes a head node as its input.
+     * @param headInput  A node that will be the head of the new DLL.
+     */
     DLL(DNode headInput){
         this.head = headInput;     // head and tail both point to same node.
         this.tail = headInput;
@@ -37,6 +43,10 @@ public class DLL extends SLL {
 
     }
 
+    /**
+     * Inserts a new node at the head of the list.
+     * @param newNode  The node to be inserted at the head of the list.
+     */
     public void insertHead(DNode newNode) {
         // One of two scenarios while trying to insert a new head.
         if(this.head==null) {
@@ -52,6 +62,10 @@ public class DLL extends SLL {
         }
     }
 
+    /**
+     * Inserts a new node at the tail of the list.
+     * @param newNode  The node to be inserted at the tail of the list.
+     */
     public void insertTail(DNode newNode) {
         if(this.head==null) {
             this.head = newNode;
@@ -66,6 +80,11 @@ public class DLL extends SLL {
         }
     }
 
+    /**
+     * Inserts a new node at a specified position in the list.
+     * @param newNode  The node to be inserted at the specified position.
+     * @param position  The position at which the node will be inserted.
+     */
     public void insert(DNode newNode, int position) {
         // One of three cases:
         // 1) Position = 1, which means to insert at the head position
@@ -91,6 +110,10 @@ public class DLL extends SLL {
         }
     }
 
+    /**
+     * Checks if the list is sorted.
+     * @return  true if the list is sorted, false if it is not.
+     */
     public boolean isSorted() {
         // Idea here: for every node, check with every other prev. node.
         int[] allData = new int[this.size];
@@ -107,6 +130,11 @@ public class DLL extends SLL {
         return true;
     }
 
+    /**
+     * Inserts a new node into the list in its proper sorted position.
+     * If the list is not sorted, it will be sorted first.
+     * @param node  The node to be inserted into the list.
+     */
     public void sortedInsert(DNode node) {
         // METHOD: for every position in the LL, we will check a 2-item array to see if
         // the data is either smaller or larger than the data in the array; the data in the array
@@ -130,6 +158,12 @@ public class DLL extends SLL {
             }
         }
     }
+
+    /**
+     * Searches for the first instance of the specified node in the list.
+     * @param node  The node to be searched for.
+     * @return  The node if it is found, null if it is not.
+     */
     public DNode Search(DNode node) {
         DNode current = this.head;
         while(current != null){
@@ -141,6 +175,9 @@ public class DLL extends SLL {
         return null;
     }
 
+    /**
+     * Deletes the head node of the list.
+     */
     public void deleteHead() {
         if(this.head==null){return;}
         DNode nextUp = this.head.next;
@@ -149,6 +186,9 @@ public class DLL extends SLL {
         this.head = nextUp;
     }
 
+    /**
+     * Deletes the tail node of the list.
+     */
     public void deleteTail() {
         DNode newTail = this.tail.back;
         this.tail.back = null;
@@ -156,6 +196,10 @@ public class DLL extends SLL {
         this.tail = newTail;
     }
 
+    /**
+     * Deletes the specified node from the list. If the node is not in the list, nothing happens.
+     * @param node  The node to be deleted.
+     */
     public void delete(DNode node) {
         // First, check if node is tail or head node, make use of those methods.
         if(this.head==node){deleteHead();}
@@ -170,9 +214,9 @@ public class DLL extends SLL {
         }
     }
 
-    // decided to implement an insertion sort since that is what is asked for, although may come back to this and implement
-    // a merge sort if I ever get bored...
-
+    /**
+     * Sorts the list in ascending order using the insertion sort algorithm.
+     */
     public void sort() {
         // we can always find a better alg. later but this is what i got for now.
         DNode current = this.head;
@@ -253,6 +297,9 @@ public class DLL extends SLL {
         }
     }
 
+    /**
+     * Empties the list.
+     */
     public void clear() {
         // Simply restore everything back to null and zero.
         this.head = null;
@@ -260,11 +307,14 @@ public class DLL extends SLL {
         this.size = 0;
     }
 
+    /**
+     * Prints the list information to the console.
+     */
     public void print() {
         DNode current = this.head;
         System.out.print("List Information:\n");
         System.out.printf("List length: %d\n", this.size);
-        System.out.printf("Sorted status: " + this.isSorted() +   "\n");               // still need to implement a method for this.
+        System.out.printf("Sorted status: " + this.isSorted() +   "\n");
         for(int i = 1; current != null; i++){
             System.out.printf("Data in list item #%d: %d\n", i, current.data);
             current = current.next;

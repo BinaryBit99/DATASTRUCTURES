@@ -1,13 +1,15 @@
 package mylib.datastructures.nodes;
-// Hey Karam, you probably know about this already, but we have to build everything in maven, and I believe this is the correct package structure.
-// ^ temp comment.
-// Documentation outlined below:
+
 /**
  * @authors Evan Barker & Karam Baroud
  * @version 1.1
  * @since 1.0
  */
 
+/**
+ * SNode is a node object that is used for our SLL, CSLL, StackLL, and QueueLL implementations.
+ * It is a singly linked node, meaning it has one pointer that points to the next node.
+*/
 public class SNode {
     SNode() {this.data = 0;}
     public int data; // could be any other type of data, used to display functionality of the data structure.

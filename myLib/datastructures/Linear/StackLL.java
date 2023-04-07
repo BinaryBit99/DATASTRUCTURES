@@ -4,16 +4,18 @@
  * @since 1.0
  */
 
-/*
+ package mylib.datastructures.linear;
+
+ import mylib.datastructures.nodes.SNode;
+ 
+
+/**
  * StackLL is an implementation of the stack data structure using a linked list.
  * It extends the SLL class and uses some of its methods.
  * Methods that are detrimental to stack behavior are overridden.
  */
 
- package mylib.datastructures.linear;
 
- import mylib.datastructures.nodes.SNode;
- 
  public class StackLL extends SLL {
  
  

@@ -3,33 +3,64 @@ import mylib.datastructures.nodes.TNode;
 
 import java.util.*;
 
+/**
+ * @authors Evan Barker & Karam Baroud
+ * @version 1.3
+ * @since 1.0
+ */
+
+/**
+ * BST is a binary search tree implementation. It is a tree data structure that is used to store data in a sorted manner.
+ * It is a binary tree, meaning that each node has at most two children. The left child is always less than the parent node,
+ * and the right child is always greater than or equal to the parent node.
+ */
 public class BST {
     // 'root' references the root of the tree.
-    TNode root;
+    private TNode root;
 
 
-
+    /**
+     * Default BST constructor. Sets root to null.
+     */
     public BST() {
         this.root = null;
     }
 
+    /**
+     * BST constructor that takes in an int as input. Sets root to a new TNode object with the data set to the input value.
+     * @param val    the data to be stored in the root node.
+     */
     BST(int val) {
+        this.root = new TNode();
         root.setData(val);  // ensure that setters are used in constructor to align with OOP principles.
     }
 
+    /**
+     * BST constructor that takes in a TNode as input. Sets root to the input value.
+     * @param obj   the TNode object to be set as the root.
+     */
     BST(TNode obj) {
         this.root = obj;
     }
 
+    /**
+     * @param root The new root of the tree.
+     */
     public void setRoot(TNode root) {
         this.root = root;
     }
 
+    /**
+     * @return  the root of the tree.
+     */
     public TNode getRoot() {
         return this.root;
     }
 
-    // Straight-forward implementation of an insert method.
+    /**
+     * Straight-forward implementation of an insert method.
+     * @param val   the data to be inserted into the tree.
+     */
     public void insert(int val) {
         TNode newNode = new TNode();
         newNode.setData(val);
@@ -59,7 +90,10 @@ public class BST {
         }
     }
 
-    // Same as above method except arg is of type 'TNode'.
+    /** 
+     * Same as above method except arg is of type 'TNode'.
+     * @param node  the node to be inserted into the tree.
+     */
     public void insert(TNode node) {
         if (this.root == null) {
             this.root = node;
@@ -86,7 +120,11 @@ public class BST {
         }
     }
 
-    /** Helper function to get the minimum key **/
+    /** 
+     * Helper function to get the minimum key 
+     * @param current   the current node.
+     * @return  the minimum key.
+     */
     public TNode getMinKey(TNode current) {
         while(current.getLeft() != null) {
             current = current.getLeft();
@@ -94,6 +132,10 @@ public class BST {
         return current;
     }
 
+    /**
+     * Deletes a node from the tree if it matches the input value. Else, it does nothing.
+     * @param val   the value to be deleted from the tree.
+     */
     public void delete(int val) {
         // If root is null, we can move on.
         if(this.root==null) {return;}
@@ -133,6 +175,11 @@ public class BST {
         }
     }
 
+    /**
+     * Searches for a node in the tree that matches the input value.
+     * @param val   the value to be searched for in the tree.
+     * @return  the node that matches the input value, or null if not found.
+     */
     public TNode search(int val) {
         TNode current = this.root;
         while(current.getData() != val) {
@@ -150,6 +197,10 @@ public class BST {
     }
 
     int mover = 1;
+    /**
+     * Recursive in-order traversal of the tree. Uses global variable 'mover' to keep track of the node number.
+     * @param current   the current node.
+     */
     public void inOrder(TNode current) {
 
         if(current==null){
@@ -162,11 +213,18 @@ public class BST {
 
     }
 
+    /**
+     * Prints the tree in in-order traversal.
+     */
     public void printInOrder() {
         // Thinking we can just implement a recursive approach to in-order traversing...
         System.out.println("\n----\n");
         inOrder(this.root);  // pass - in root node as an argument.
     }
+
+    /**
+     * Prints the tree in breadth-first traversal.
+     */
     public void printBF() {
         System.out.println("\n----\n");
         LinkedList<TNode> queue = new LinkedList<>();
