@@ -1,10 +1,6 @@
-package mylib.datastructures.linear;
-
-import mylib.datastructures.trees.AVL;
-import mylib.datastructures.trees.BST;
-import mylib.datastructures.nodes.DNode;
-import mylib.datastructures.nodes.SNode;
-import mylib.datastructures.nodes.TNode;
+import mylib.datastructures.trees.*;
+import mylib.datastructures.nodes.*;
+import mylib.datastructures.linear.*;
 
 import java.util.Random;
 
